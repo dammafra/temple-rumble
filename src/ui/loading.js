@@ -20,7 +20,7 @@ export default class Loading {
   }
 
   setProgress(progress) {
-    console.log(progress)
+    console.log('Loading...', progress)
   }
 
   dispose() {}

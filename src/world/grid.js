@@ -1,0 +1,45 @@
+import Experience from '@experience'
+import Random from '@utils/random'
+import { Box3, Group, Vector3 } from 'three'
+
+export default class Grid {
+  constructor() {
+    this.experience = Experience.instance
+    this.debug = this.experience.debug
+    this.resources = this.experience.resources
+    this.scene = this.experience.scene
+
+    this.width = 8
+    this.height = 5
+    this.size = 2.5
+    this.offset = 0.5
+
+    // Base tile setup
+    this.baseTile = this.experience.resources.items.floor.scene.children.at(0).children.at(0)
+    this.baseTile.receiveShadow = true
+    const box = new Box3().setFromObject(this.baseTile)
+    const center = new Vector3()
+    box.getCenter(center).negate()
+    this.baseTile.geometry.translate(center.x, center.y, center.z)
+    this.baseTile.position.y = -0.1
+    this.baseTile.scale.setScalar(this.size)
+    this.baseTile.receiveShadow = true
+
+    this.init()
+  }
+
+  init() {
+    this.tilesGroup = new Group()
+    this.scene.add(this.tilesGroup)
+
+    for (let z = -Math.floor(this.height / 2) + 1; z <= Math.ceil(this.height / 2); z++) {
+      for (let x = -Math.floor(this.width / 2) + 1; x <= Math.ceil(this.width / 2); x++) {
+        const tile = this.baseTile.clone()
+        tile.position.x = x - this.offset
+        tile.position.z = z - this.offset
+        tile.rotation.y = Math.PI * 0.5 * Random.integer({ max: 3 })
+        this.tilesGroup.add(tile)
+      }
+    }
+  }
+}

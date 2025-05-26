@@ -57,11 +57,12 @@ export default class Camera {
     this.controls.minDistance = 4
     this.controls.maxDistance = 80
     this.controls.maxPolarAngle = Math.PI / 2 - 0.2
-    this.controls.minAzimuthAngle = -Math.PI * 0.5
-    this.controls.maxAzimuthAngle = Math.PI * 0.5
     this.controls.restThreshold = 0.00009
     this.controls.smoothTime = 0.25
 
+    this.controls.rotatePolarTo(Math.PI * 0.2)
+    this.controls.rotateAzimuthTo(0)
+    this.controls.zoomTo(1)
     this.setBoundary()
   }
 
@@ -100,5 +101,9 @@ export default class Camera {
           this.instance.lookAt(Grid.center)
         }
       })
+
+    folder
+      .addBinding(this.instance, 'fov')
+      .on('change', () => this.instance.updateProjectionMatrix())
   }
 }

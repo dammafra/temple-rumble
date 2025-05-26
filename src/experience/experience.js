@@ -1,5 +1,7 @@
+import World from '@world/world'
 import { AxesHelper, GridHelper, Scene } from 'three'
 import Camera from './camera'
+import Character from './character'
 import Renderer from './renderer'
 import Resources from './resources'
 import Sizes from './sizes'
@@ -49,11 +51,14 @@ export default class Experience {
     this.loading.stop()
 
     this.soundPlayer = new SoundPlayer()
+    this.world = new World()
+    this.character = new Character()
   }
 
   update = () => {
     this.camera.update()
     this.renderer.update()
+    // this.character?.update()
   }
 
   dispose() {}
@@ -81,9 +86,6 @@ export default class Experience {
       .on('change', event => {
         axesHelper.visible = event.value
         gridHelper.visible = event.value
-
-        this.world.environment.shadowHelper.visible = event.value
-        this.world.environment.shadowHelper2.visible = event.value
       })
   }
 }
