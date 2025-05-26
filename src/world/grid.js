@@ -16,14 +16,14 @@ export default class Grid {
 
     // Base tile setup
     this.baseTile = this.experience.resources.items.floor.scene.children.at(0).children.at(0)
-    this.baseTile.receiveShadow = true
+
     const box = new Box3().setFromObject(this.baseTile)
     const center = new Vector3()
     box.getCenter(center).negate()
     this.baseTile.geometry.translate(center.x, center.y, center.z)
+
     this.baseTile.position.y = -0.1
     this.baseTile.scale.setScalar(this.size)
-    this.baseTile.receiveShadow = true
 
     this.init()
   }

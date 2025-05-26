@@ -32,7 +32,7 @@ export default class Renderer {
     this.instance.shadowMap.enabled = true
     this.instance.setClearColor('#000000')
     this.instance.toneMapping = CineonToneMapping
-    this.maxAnisotropy = Math.min(2, this.instance.capabilities.getMaxAnisotropy())
+    this.maxAnisotropy = this.instance.capabilities.getMaxAnisotropy()
 
     this.resize()
   }

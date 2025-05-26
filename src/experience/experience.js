@@ -58,7 +58,7 @@ export default class Experience {
   update = () => {
     this.camera.update()
     this.renderer.update()
-    // this.character?.update()
+    this.world?.update()
   }
 
   dispose() {}

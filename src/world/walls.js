@@ -5,6 +5,7 @@ export default class Walls {
   constructor() {
     this.experience = Experience.instance
     this.debug = this.experience.debug
+    this.renderer = this.experience.renderer
     this.resources = this.experience.resources
     this.scene = this.experience.scene
 
@@ -17,12 +18,18 @@ export default class Walls {
     }
 
     textures.map.colorSpace = SRGBColorSpace
+    textures.map.anisotropy = this.renderer.maxAnisotropy
 
     const material = new MeshStandardMaterial({ ...textures, displacementScale: 0.1 })
 
     this.wallN = new Mesh(new PlaneGeometry(8, 4), material)
     this.wallN.position.y = 2
     this.wallN.position.z = -2
+
+    this.wallS = this.wallN.clone()
+    this.wallS.rotation.y += Math.PI
+    this.wallS.position.y = 2
+    this.wallS.position.z = 3
 
     this.wallW = new Mesh(new PlaneGeometry(5, 4), material)
     this.wallW.rotation.y = Math.PI * 0.5
@@ -34,6 +41,6 @@ export default class Walls {
     this.wallE.rotation.y += Math.PI
     this.wallE.position.x = -this.wallW.position.x
 
-    this.scene.add(this.wallN, this.wallW, this.wallE)
+    this.scene.add(this.wallN, this.wallS, this.wallW, this.wallE)
   }
 }

@@ -15,11 +15,6 @@ export default class Character {
     this.mesh.scale.setScalar(0.4)
     this.mesh.position.y = 0.05
     this.mesh.traverse(child => {
-      if (child.isMesh) {
-        child.castShadow = true
-        child.receiveShadow = true
-      }
-
       if (child.isSkinnedMesh && child.name === 'Player_1') {
         this.skin = child
       }
