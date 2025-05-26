@@ -1,0 +1,19 @@
+/* tailwind config */
+@import 'tailwindcss';
+
+/* styles */
+* {
+  @apply select-none touch-manipulation;
+}
+
+a {
+  @apply inline-block underline;
+}
+
+main {
+  @apply h-full;
+}
+
+.webgl {
+  @apply fixed top-0 left-0 outline-none;
+}
