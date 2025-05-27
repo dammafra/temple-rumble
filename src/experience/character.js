@@ -10,26 +10,26 @@ export default class Character {
     this.scene = this.experience.scene
 
     // mesh
-    this.color = '#ffffff'
     this.mesh = this.resources.items.character.scene
-    this.mesh.scale.setScalar(0.4)
+
+    this.mesh.scale.setScalar(0.6)
     this.mesh.position.y = 0.05
+
     this.mesh.traverse(child => {
-      if (child.isSkinnedMesh && child.name === 'Player_1') {
-        this.skin = child
+      if (child.isMesh) {
+        child.material.metalness = 0
+        child.material.roughess = 1
       }
     })
-
     this.scene.add(this.mesh)
 
     // animations
-    this.jumpAnimation = this.resources.items.character.animations.at(0)
-    this.walkAnimation = this.resources.items.character.animations.at(1)
+    console.log(this.resources.items.character.animations.map(a => a.name))
+    this.idleAnimation = this.resources.items.character.animations.at(23)
 
     this.animationMixer = new AnimationMixer(this.mesh)
-    this.walkAction = this.animationMixer.clipAction(this.walkAnimation)
-    this.jumpAction = this.animationMixer.clipAction(this.jumpAnimation)
-    this.walkAction.play()
+    this.idleAction = this.animationMixer.clipAction(this.idleAnimation)
+    this.idleAction.play()
 
     this.setDebug()
   }
@@ -38,9 +38,6 @@ export default class Character {
     if (!this.debug) return
 
     const folder = this.debug.root.addFolder({ title: '🕹️ character', expanded: false })
-    folder
-      .addBinding(this, 'color')
-      .on('change', event => this.skin.material.color.set(event.value))
     folder.addBinding(this.mesh, 'position')
   }
 

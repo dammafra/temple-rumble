@@ -35,7 +35,7 @@ export default class World {
       paddingLeft: 1,
       paddingRight: 1,
     })
-    this.camera.controls.rotatePolarTo(vertical ? 0 : 10 * MathUtils.DEG2RAD, !skip)
+    this.camera.controls.rotatePolarTo(vertical ? 0 : 20 * MathUtils.DEG2RAD, !skip)
   }
 
   update() {
