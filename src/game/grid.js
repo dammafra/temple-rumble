@@ -37,7 +37,7 @@ export default class Grid {
     this.width = 8
     this.height = 5
     this.size = 2.5
-    this.offset = 0.5
+    this.offset = new Vector3(0.5, -0.1, 0.5)
 
     this.initBase()
     this.init()
@@ -58,9 +58,9 @@ export default class Grid {
 
     this.iMesh.addInstances(this.paddedWidth * this.height, (obj, index) => {
       const { x, z } = this.getCoordinates(index)
-      obj.position.x = x + this.offset
-      obj.position.z = z + this.offset
-      obj.position.y = -0.1
+      obj.position.x = x + this.offset.x
+      obj.position.y = this.offset.y
+      obj.position.z = z + this.offset.z
       obj.scale.setScalar(this.size)
       obj.rotation.y = 90 * MathUtils.DEG2RAD * Random.integer({ max: 3 })
     })

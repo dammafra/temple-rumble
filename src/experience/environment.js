@@ -6,9 +6,7 @@ export default class Environment {
     // Setup
     this.experience = Experience.instance
     this.debug = this.experience.debug
-
     this.scene = this.experience.scene
-    this.resources = this.experience.resources
 
     this.setLight()
     this.setDebug()

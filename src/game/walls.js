@@ -22,7 +22,7 @@ export default class Walls {
 
     this.setHorizontalWalls()
     this.setVerticalWalls()
-    this.setCeilings()
+    this.setBlackBox()
   }
 
   getTextures(repeatX) {
@@ -47,7 +47,10 @@ export default class Walls {
   }
 
   setHorizontalWalls() {
-    const geometry = new PlaneGeometry(this.grid.width, this.height)
+    const geometry = new PlaneGeometry(
+      this.grid.width,
+      this.height + Math.abs(this.grid.offset.y) * 2,
+    )
     const material = new MeshStandardMaterial({
       ...this.getTextures(this.grid.width),
       displacementScale: 0.1,
@@ -55,7 +58,7 @@ export default class Walls {
 
     this.wallTop = new Mesh(geometry, material)
     this.wallTop.position.z = this.grid.minZ
-    this.wallTop.position.y = this.height / 2
+    this.wallTop.position.y = this.height / 2 + this.grid.offset.y
     this.wallTop.position.x = this.grid.width % 2 ? 0.5 : 0
 
     this.wallBottom = this.wallTop.clone()
@@ -86,20 +89,20 @@ export default class Walls {
     this.scene.add(this.wallLeft, this.wallRight)
   }
 
-  setCeilings() {
-    const width = 2
-    const geometry = new PlaneGeometry(2, this.grid.height)
+  setBlackBox() {
+    const width = 5
+    const geometry = new PlaneGeometry(width, this.grid.height + 2)
     const material = new MeshBasicMaterial({ color: 'black' })
 
-    this.ceilingLeft = new Mesh(geometry, material)
-    this.ceilingLeft.rotation.x = -90 * MathUtils.DEG2RAD
-    this.ceilingLeft.position.x = this.grid.minX - width / 2
-    this.ceilingLeft.position.y = this.height
-    this.ceilingLeft.position.z = this.grid.height % 2 ? 0.5 : 0
+    this.blackBoxLeft = new Mesh(geometry, material)
+    this.blackBoxLeft.rotation.x = -90 * MathUtils.DEG2RAD
+    this.blackBoxLeft.position.x = this.grid.minX - width / 2
+    this.blackBoxLeft.position.y = this.height
+    this.blackBoxLeft.position.z = this.grid.height % 2 ? 0.5 : 0
 
-    this.ceilingRight = this.ceilingLeft.clone()
-    this.ceilingLeft.position.x = this.grid.maxX + width / 2
+    this.blackBoxRight = this.blackBoxLeft.clone()
+    this.blackBoxLeft.position.x = this.grid.maxX + width / 2
 
-    this.scene.add(this.ceilingLeft, this.ceilingRight)
+    this.scene.add(this.blackBoxLeft, this.blackBoxRight)
   }
 }

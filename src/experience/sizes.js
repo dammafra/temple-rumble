@@ -1,6 +1,14 @@
 import { EventDispatcher } from 'three'
 
 export default class Sizes extends EventDispatcher {
+  get isPortrait() {
+    return this.aspectRatio <= 1
+  }
+
+  get isLandscape() {
+    return this.aspectRatio > 1
+  }
+
   constructor() {
     super()
 

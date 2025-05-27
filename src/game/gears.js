@@ -15,6 +15,8 @@ export default class Gears {
     this.scene = this.experience.scene
 
     this.grid = grid
+    this.offset = new Vector3(0.1, 2, 0.35)
+    this.scale = new Vector3(0.7, 3.8, 0.7)
 
     this.initBase()
     this.init()
@@ -33,28 +35,24 @@ export default class Gears {
     })
     this.scene.add(this.iMesh)
 
-    const offset = new Vector3(0.1, 2, 0.35)
-    const scale = new Vector3(0.7, 3.8, 0.7)
-
     this.iMesh.addInstances(this.grid.height * 2, (obj, index) => {
       const onLeft = index < this.grid.height
-      obj.position.x = onLeft ? this.grid.minX - offset.x : this.grid.maxX + offset.x
-      obj.position.y = offset.y
-      obj.position.z = this.grid.minZ + offset.z + (index % this.grid.height)
+      obj.position.x = onLeft ? this.grid.minX - this.offset.x : this.grid.maxX + this.offset.x
+      obj.position.y = this.offset.y
+      obj.position.z = this.grid.minZ + this.offset.z + (index % this.grid.height)
 
-      obj.scale.copy(scale)
+      obj.scale.copy(this.scale)
 
       obj.rotation.x = 90 * MathUtils.DEG2RAD
       obj.rotation.y = Random.float({ max: 10 })
     })
   }
 
-  update() {
-    this.iMesh.instances.forEach((obj, index) => {
-      const onLeft = index < this.grid.height
-      const direction = onLeft ? -1 : 1
-      obj.rotation.y += Math.sin(this.time.elapsed) * 0.01 * direction
-      obj.updateMatrix()
-    })
+  setRotation(index, directionIn) {
+    const onLeft = index < this.grid.height
+    const gear = this.iMesh.instances.at(index)
+
+    gear.rotation.y += 0.01 * (directionIn ? 1 : -1) * (onLeft ? -1 : 1)
+    gear.updateMatrix()
   }
 }

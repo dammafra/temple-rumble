@@ -1,6 +1,7 @@
 import Experience from '@experience'
 import Debug from '@utils/debug'
 import CameraControls from 'camera-controls'
+import gsap from 'gsap'
 import {
   Box3,
   MathUtils,
@@ -33,14 +34,11 @@ export default class Camera {
   constructor() {
     // Setup
     this.experience = Experience.instance
-    this.settings = this.experience.settings
     this.debug = this.experience.debug
     this.time = this.experience.time
     this.sizes = this.experience.sizes
     this.scene = this.experience.scene
     this.canvas = this.experience.canvas
-
-    this.boundary = 10
 
     this.setInstance()
     this.setControls()
@@ -85,6 +83,27 @@ export default class Camera {
     this.cameraPositionPane?.refresh()
   }
 
+  tilt() {
+    const intensity = this.sizes.isPortrait ? 0.01 : 0.05
+    const duration = 0.1
+    const originalRotation = this.instance.rotation.clone()
+
+    this.controls.enabled = false
+
+    return gsap.to(this.instance.rotation, {
+      y: this.sizes.isPortrait ? intensity : originalRotation.y,
+      z: this.sizes.isPortrait ? originalRotation.z : intensity,
+      duration,
+      repeat: 5,
+      yoyo: true,
+      ease: 'power1.inOut',
+      onComplete: () => {
+        this.instance.rotation.copy(originalRotation)
+        this.controls.enabled = true
+      },
+    })
+  }
+
   setDebug() {
     if (!this.debug) return
 
@@ -99,5 +118,7 @@ export default class Camera {
     folder
       .addBinding(this.instance, 'fov')
       .on('change', () => this.instance.updateProjectionMatrix())
+
+    folder.addButton({ title: 'tilt' }).on('click', () => this.tilt())
   }
 }

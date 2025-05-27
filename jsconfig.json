@@ -3,10 +3,10 @@
     "paths": {
       "@config/*": ["./src/config/*"],
       "@experience": ["./src/experience/experience.js"],
+      "@game/*": ["./src/game/*"],
       "@shaders/*": ["./src/shaders/*"],
       "@ui/*": ["./src/ui/*"],
-      "@utils/*": ["./src/utils/*"],
-      "@world/*": ["./src/world/*"]
+      "@utils/*": ["./src/utils/*"]
     }
   }
 }

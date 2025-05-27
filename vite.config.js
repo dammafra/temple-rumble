@@ -24,10 +24,10 @@ export default {
     alias: {
       '@config': path.resolve(__dirname, 'src/config'),
       '@experience': path.resolve(__dirname, 'src/experience/experience.js'),
+      '@game': path.resolve(__dirname, 'src/game'),
       '@shaders': path.resolve(__dirname, 'src/shaders'),
       '@ui': path.resolve(__dirname, 'src/ui'),
       '@utils': path.resolve(__dirname, 'src/utils'),
-      '@world': path.resolve(__dirname, 'src/world'),
     },
   },
 }

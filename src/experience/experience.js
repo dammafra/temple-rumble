@@ -1,6 +1,7 @@
-import World from '@world/world'
+import Game from '@game/game'
 import { AxesHelper, GridHelper, Scene } from 'three'
 import Camera from './camera'
+import Environment from './environment'
 import Renderer from './renderer'
 import Resources from './resources'
 import Sizes from './sizes'
@@ -30,6 +31,7 @@ export default class Experience {
     this.resources = new Resources(loading)
     this.scene = new Scene()
     this.camera = new Camera()
+    this.environment = new Environment()
     this.renderer = new Renderer()
 
     // Events
@@ -44,22 +46,20 @@ export default class Experience {
   resize = () => {
     this.camera.resize()
     this.renderer.resize()
-    this.world?.resize()
+    this.game?.resize()
   }
 
   ready = () => {
     this.loading.stop()
 
     this.soundPlayer = new SoundPlayer()
-    this.world = new World()
-    // this.character = new Character()
+    this.game = new Game()
   }
 
   update = () => {
     this.camera.update()
     this.renderer.update()
-    this.world?.update()
-    this.character?.update()
+    this.game?.update()
   }
 
   dispose() {}
