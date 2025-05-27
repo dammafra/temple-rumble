@@ -3,6 +3,7 @@ import { MathUtils } from 'three'
 import Environment from './environment'
 import Gears from './gears'
 import Grid from './grid'
+import Pillars from './pillars'
 import Walls from './walls'
 
 export default class World {
@@ -16,6 +17,7 @@ export default class World {
     this.grid = new Grid()
     this.walls = new Walls(this.grid)
     this.gears = new Gears(this.grid)
+    this.pillars = new Pillars(this.grid)
 
     // TODO improve this workaround
     this.resize(true)
@@ -37,5 +39,6 @@ export default class World {
 
   update() {
     this.gears.update()
+    this.pillars.update()
   }
 }

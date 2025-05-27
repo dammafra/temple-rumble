@@ -64,16 +64,17 @@ export default class Walls {
   }
 
   setVerticalWalls() {
-    const geometry = new PlaneGeometry(this.grid.height, this.height)
+    const offset = 1
+    const geometry = new PlaneGeometry(this.grid.height, this.height - offset)
     const material = new MeshStandardMaterial({
       ...this.getTextures(this.grid.height),
-      displacementScale: 0.1,
+      displacementScale: 0,
     })
 
     this.wallLeft = new Mesh(geometry, material)
     this.wallLeft.rotation.y = 90 * MathUtils.DEG2RAD
     this.wallLeft.position.x = this.grid.minX
-    this.wallLeft.position.y = this.height / 2
+    this.wallLeft.position.y = (this.height - offset) / 2 + offset
     this.wallLeft.position.z = this.grid.height % 2 ? 0.5 : 0
 
     this.wallRight = this.wallLeft.clone()

@@ -15,6 +15,11 @@ const resourcesConfig = [
     type: 'gltfModel',
     path: './models/gear4.glb',
   },
+  {
+    name: 'pillar',
+    type: 'gltfModel',
+    path: './models/pillar.glb',
+  },
   // textures
   {
     name: 'bricksAO',

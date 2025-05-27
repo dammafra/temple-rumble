@@ -20,6 +20,14 @@ export default class Grid {
     return Math.ceil(this.height / 2)
   }
 
+  get paddedWidth() {
+    return this.width + 2
+  }
+
+  get paddedMinX() {
+    return -Math.floor(this.paddedWidth / 2)
+  }
+
   constructor() {
     this.experience = Experience.instance
     this.debug = this.experience.debug
@@ -48,7 +56,7 @@ export default class Grid {
     this.iMesh = new InstancedMesh2(this.base.geometry, this.base.material, { allowsEuler: true })
     this.scene.add(this.iMesh)
 
-    this.iMesh.addInstances(this.width * this.height, (obj, index) => {
+    this.iMesh.addInstances(this.paddedWidth * this.height, (obj, index) => {
       const { x, z } = this.getCoordinates(index)
       obj.position.x = x + this.offset
       obj.position.z = z + this.offset
@@ -59,9 +67,9 @@ export default class Grid {
   }
 
   getCoordinates(index) {
-    const row = Math.floor(index / this.width)
-    const col = index % this.width
-    const x = this.minX + col
+    const row = Math.floor(index / this.paddedWidth)
+    const col = index % this.paddedWidth
+    const x = this.paddedMinX + col
     const z = this.minZ + row
     return { x, z }
   }

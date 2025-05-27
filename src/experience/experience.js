@@ -1,7 +1,6 @@
 import World from '@world/world'
 import { AxesHelper, GridHelper, Scene } from 'three'
 import Camera from './camera'
-import Character from './character'
 import Renderer from './renderer'
 import Resources from './resources'
 import Sizes from './sizes'
@@ -53,7 +52,7 @@ export default class Experience {
 
     this.soundPlayer = new SoundPlayer()
     this.world = new World()
-    this.character = new Character()
+    // this.character = new Character()
   }
 
   update = () => {

@@ -1,5 +1,5 @@
 import Experience from '@experience'
-import { AnimationMixer, Color } from 'three'
+import { AnimationMixer } from 'three'
 
 export default class Character {
   constructor() {
@@ -40,7 +40,7 @@ export default class Character {
     const folder = this.debug.root.addFolder({ title: '🕹️ character', expanded: false })
     folder
       .addBinding(this, 'color')
-      .on('change', event => (this.skin.material.color = new Color(event.value)))
+      .on('change', event => this.skin.material.color.set(event.value))
     folder.addBinding(this.mesh, 'position')
   }
 

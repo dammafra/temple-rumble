@@ -1,7 +1,7 @@
 import Experience from '@experience'
 import { InstancedMesh2 } from '@three.ez/instanced-mesh'
 import Random from '@utils/random'
-import { MathUtils } from 'three'
+import { MathUtils, Vector3 } from 'three'
 
 export default class Gears {
   static base
@@ -10,6 +10,7 @@ export default class Gears {
   constructor(grid) {
     this.experience = Experience.instance
     this.debug = this.experience.debug
+    this.time = this.experience.time
     this.resources = this.experience.resources
     this.scene = this.experience.scene
 
@@ -32,12 +33,16 @@ export default class Gears {
     })
     this.scene.add(this.iMesh)
 
-    this.iMesh.addInstances(this.grid.height * 2, (obj, index) => {
-      obj.position.x = index < this.grid.height ? this.grid.minX : this.grid.maxX
-      obj.position.y = 2
-      obj.position.z = this.grid.minZ + 0.35 + (index % this.grid.height)
+    const offset = new Vector3(0.1, 2, 0.35)
+    const scale = new Vector3(0.7, 3.8, 0.7)
 
-      obj.scale.set(0.7, 3.8, 0.7)
+    this.iMesh.addInstances(this.grid.height * 2, (obj, index) => {
+      const onLeft = index < this.grid.height
+      obj.position.x = onLeft ? this.grid.minX - offset.x : this.grid.maxX + offset.x
+      obj.position.y = offset.y
+      obj.position.z = this.grid.minZ + offset.z + (index % this.grid.height)
+
+      obj.scale.copy(scale)
 
       obj.rotation.x = 90 * MathUtils.DEG2RAD
       obj.rotation.y = Random.float({ max: 10 })
@@ -46,8 +51,9 @@ export default class Gears {
 
   update() {
     this.iMesh.instances.forEach((obj, index) => {
-      const direction = index < this.grid.height ? 1 : -1
-      obj.rotation.y += 0.01 * direction
+      const onLeft = index < this.grid.height
+      const direction = onLeft ? -1 : 1
+      obj.rotation.y += Math.sin(this.time.elapsed) * 0.01 * direction
       obj.updateMatrix()
     })
   }
