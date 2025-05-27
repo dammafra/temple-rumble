@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.0.9",
+    "@three.ez/instanced-mesh": "^0.3.4",
     "@tweakpane/core": "^2.0.5",
     "@tweakpane/plugin-essentials": "^0.2.1",
     "camera-controls": "^2.10.0",

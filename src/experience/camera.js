@@ -3,6 +3,7 @@ import Debug from '@utils/debug'
 import CameraControls from 'camera-controls'
 import {
   Box3,
+  MathUtils,
   Matrix4,
   PerspectiveCamera,
   Quaternion,
@@ -56,7 +57,7 @@ export default class Camera {
     this.controls = new CameraControls(this.instance, this.canvas)
     this.controls.minDistance = 4
     this.controls.maxDistance = 80
-    this.controls.maxPolarAngle = Math.PI / 2 - 0.2
+    this.controls.maxPolarAngle = 90 * MathUtils.DEG2RAD - 0.2
     this.controls.restThreshold = 0.00009
     this.controls.smoothTime = 0.25
 

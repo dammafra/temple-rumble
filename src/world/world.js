@@ -1,7 +1,7 @@
 import Experience from '@experience'
 import { MathUtils } from 'three'
 import Environment from './environment'
-import Gear from './gear'
+import Gears from './gears'
 import Grid from './grid'
 import Walls from './walls'
 
@@ -15,7 +15,7 @@ export default class World {
     this.environment = new Environment()
     this.grid = new Grid()
     this.walls = new Walls(this.grid)
-    this.gears = Array.from({ length: this.grid.height * 2 }, (_, i) => new Gear(this.grid, i))
+    this.gears = new Gears(this.grid)
 
     // TODO improve this workaround
     this.resize(true)
@@ -26,7 +26,7 @@ export default class World {
     const vertical = this.sizes.aspectRatio < 1
 
     this.camera.controls.rotateAzimuthTo(vertical ? -90 * MathUtils.DEG2RAD : 0, !skip)
-    this.camera.controls.fitToBox(this.grid.tilesGroup, !skip, {
+    this.camera.controls.fitToBox(this.grid.iMesh, !skip, {
       paddingBottom: vertical ? 1 : 0.2,
       paddingTop: 1,
       paddingLeft: 1,
@@ -36,6 +36,6 @@ export default class World {
   }
 
   update() {
-    this.gears.forEach(g => g.update())
+    this.gears.update()
   }
 }

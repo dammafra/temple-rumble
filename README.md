@@ -11,6 +11,7 @@
 - [Three.js](https://threejs.org/) (3D rendering)
 - [Tweakpane](https://tweakpane.github.io/docs/) (Debug)
 - [@yomotsu/camera-controls](https://github.com/yomotsu/camera-controls)
+- [@agargaro/instanced-mesh](https://github.com/agargaro/instanced-mesh)
 - [GSAP](https://gsap.com/)
 - [Tailwind](https://tailwindcss.com/)
 

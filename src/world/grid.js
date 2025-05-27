@@ -1,6 +1,7 @@
 import Experience from '@experience'
+import { InstancedMesh2 } from '@three.ez/instanced-mesh'
 import Random from '@utils/random'
-import { Box3, Group, Vector3 } from 'three'
+import { Box3, MathUtils, Vector3 } from 'three'
 
 export default class Grid {
   get minX() {
@@ -30,32 +31,38 @@ export default class Grid {
     this.size = 2.5
     this.offset = 0.5
 
-    // Base tile setup
-    this.baseTile = this.experience.resources.items.floor.scene.children.at(0).children.at(0)
-
-    const box = new Box3().setFromObject(this.baseTile)
-    const center = new Vector3()
-    box.getCenter(center).negate()
-    this.baseTile.geometry.translate(center.x, center.y, center.z)
-
-    this.baseTile.position.y = -0.1
-    this.baseTile.scale.setScalar(this.size)
-
+    this.initBase()
     this.init()
   }
 
-  init() {
-    this.tilesGroup = new Group()
-    this.scene.add(this.tilesGroup)
+  initBase() {
+    this.base = this.experience.resources.items.floor.scene.children.at(0).children.at(0)
 
-    for (let z = this.minZ + 1; z <= this.maxZ; z++) {
-      for (let x = this.minX + 1; x <= this.maxX; x++) {
-        const tile = this.baseTile.clone()
-        tile.position.x = x - this.offset
-        tile.position.z = z - this.offset
-        tile.rotation.y = Math.PI * 0.5 * Random.integer({ max: 3 })
-        this.tilesGroup.add(tile)
-      }
-    }
+    const box = new Box3().setFromObject(this.base)
+    const center = new Vector3()
+    box.getCenter(center).negate()
+    this.base.geometry.translate(center.x, center.y, center.z)
+  }
+
+  init() {
+    this.iMesh = new InstancedMesh2(this.base.geometry, this.base.material, { allowsEuler: true })
+    this.scene.add(this.iMesh)
+
+    this.iMesh.addInstances(this.width * this.height, (obj, index) => {
+      const { x, z } = this.getCoordinates(index)
+      obj.position.x = x + this.offset
+      obj.position.z = z + this.offset
+      obj.position.y = -0.1
+      obj.scale.setScalar(this.size)
+      obj.rotation.y = 90 * MathUtils.DEG2RAD * Random.integer({ max: 3 })
+    })
+  }
+
+  getCoordinates(index) {
+    const row = Math.floor(index / this.width)
+    const col = index % this.width
+    const x = this.minX + col
+    const z = this.minZ + row
+    return { x, z }
   }
 }

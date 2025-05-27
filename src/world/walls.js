@@ -1,5 +1,12 @@
 import Experience from '@experience'
-import { Mesh, MeshStandardMaterial, PlaneGeometry, RepeatWrapping, SRGBColorSpace } from 'three'
+import {
+  MathUtils,
+  Mesh,
+  MeshStandardMaterial,
+  PlaneGeometry,
+  RepeatWrapping,
+  SRGBColorSpace,
+} from 'three'
 
 export default class Walls {
   constructor(grid) {
@@ -50,7 +57,7 @@ export default class Walls {
     this.wallTop.position.x = this.grid.width % 2 ? 0.5 : 0
 
     this.wallBottom = this.wallTop.clone()
-    this.wallBottom.rotation.y += Math.PI
+    this.wallBottom.rotation.y += 180 * MathUtils.DEG2RAD
     this.wallBottom.position.z = this.grid.maxZ
 
     this.scene.add(this.wallTop, this.wallBottom)
@@ -64,13 +71,13 @@ export default class Walls {
     })
 
     this.wallLeft = new Mesh(geometry, material)
-    this.wallLeft.rotation.y = Math.PI * 0.5
+    this.wallLeft.rotation.y = 90 * MathUtils.DEG2RAD
     this.wallLeft.position.x = this.grid.minX
     this.wallLeft.position.y = this.height / 2
     this.wallLeft.position.z = this.grid.height % 2 ? 0.5 : 0
 
     this.wallRight = this.wallLeft.clone()
-    this.wallRight.rotation.y += Math.PI
+    this.wallRight.rotation.y += 180 * MathUtils.DEG2RAD
     this.wallRight.position.x = this.grid.maxX
 
     this.scene.add(this.wallLeft, this.wallRight)
