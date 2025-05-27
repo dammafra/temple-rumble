@@ -29,6 +29,7 @@ export default class World {
 
     this.camera.controls.rotateAzimuthTo(vertical ? -90 * MathUtils.DEG2RAD : 0, !skip)
     this.camera.controls.fitToBox(this.grid.iMesh, !skip, {
+      cover: true,
       paddingBottom: vertical ? 1 : 0.2,
       paddingTop: 1,
       paddingLeft: 1,
