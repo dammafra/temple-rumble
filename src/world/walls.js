@@ -2,6 +2,7 @@ import Experience from '@experience'
 import {
   MathUtils,
   Mesh,
+  MeshBasicMaterial,
   MeshStandardMaterial,
   PlaneGeometry,
   RepeatWrapping,
@@ -21,6 +22,7 @@ export default class Walls {
 
     this.setHorizontalWalls()
     this.setVerticalWalls()
+    this.setCeilings()
   }
 
   getTextures(repeatX) {
@@ -82,5 +84,22 @@ export default class Walls {
     this.wallRight.position.x = this.grid.maxX
 
     this.scene.add(this.wallLeft, this.wallRight)
+  }
+
+  setCeilings() {
+    const width = 2
+    const geometry = new PlaneGeometry(2, this.grid.height)
+    const material = new MeshBasicMaterial({ color: 'black' })
+
+    this.ceilingLeft = new Mesh(geometry, material)
+    this.ceilingLeft.rotation.x = -90 * MathUtils.DEG2RAD
+    this.ceilingLeft.position.x = this.grid.minX - width / 2
+    this.ceilingLeft.position.y = this.height
+    this.ceilingLeft.position.z = this.grid.height % 2 ? 0.5 : 0
+
+    this.ceilingRight = this.ceilingLeft.clone()
+    this.ceilingLeft.position.x = this.grid.maxX + width / 2
+
+    this.scene.add(this.ceilingLeft, this.ceilingRight)
   }
 }
