@@ -1,4 +1,5 @@
 import Experience from '@experience'
+import Debug from '@utils/debug'
 import CameraControls from 'camera-controls'
 import {
   Box3,
@@ -48,7 +49,6 @@ export default class Camera {
 
   setInstance() {
     this.instance = new PerspectiveCamera(50, this.sizes.aspectRatio, 0.1, 100)
-    this.instance.position.set(2, 3, 4)
     this.scene.add(this.instance)
   }
 
@@ -60,17 +60,16 @@ export default class Camera {
     this.controls.restThreshold = 0.00009
     this.controls.smoothTime = 0.25
 
-    this.controls.rotatePolarTo(Math.PI * 0.2)
-    this.controls.rotateAzimuthTo(0)
-    this.controls.zoomTo(1)
-    this.setBoundary()
-  }
+    if (Debug.enabled) return
 
-  setBoundary() {
-    const box = new Box3()
-    box.min.set(-this.boundary, 0, -this.boundary)
-    box.max.setScalar(this.boundary)
-    this.controls.setBoundary(box)
+    this.controls.touches.one =
+      this.controls.touches.two =
+      this.controls.touches.three =
+      this.controls.mouseButtons.left =
+      this.controls.mouseButtons.middle =
+      this.controls.mouseButtons.right =
+      this.controls.mouseButtons.wheel =
+        CameraControls.ACTION.NONE
   }
 
   resize() {
@@ -94,13 +93,7 @@ export default class Camera {
       .addBinding(this.controls, 'enabled', { label: 'controls' })
       .on('change', e => (this.cameraPositionPane.disabled = e.value))
 
-    this.cameraPositionPane = folder
-      .addBinding(this.instance, 'position', { disabled: true })
-      .on('change', () => {
-        if (!this.controls.enabled) {
-          this.instance.lookAt(Grid.center)
-        }
-      })
+    this.cameraPositionPane = folder.addBinding(this.instance, 'position', { disabled: true })
 
     folder
       .addBinding(this.instance, 'fov')
