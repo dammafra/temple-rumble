@@ -40,6 +40,7 @@ const resourcesConfig = [
     name: 'bricksRoughness',
     type: 'texture',
     path: './textures/bricks/roughness.png',
+    skip: true,
   },
 ]
 

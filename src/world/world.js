@@ -10,7 +10,7 @@ export default class World {
 
     this.environment = new Environment()
     this.grid = new Grid()
-    this.walls = new Walls()
+    this.walls = new Walls(this.grid)
     this.gears = Array.from({ length: this.grid.height * 2 }, (_, i) => new Gear(this.grid, i))
   }
 

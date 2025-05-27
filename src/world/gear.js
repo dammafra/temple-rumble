@@ -29,11 +29,8 @@ export default class Gear {
 
   setMesh() {
     this.mesh = Gear.base.clone()
-    this.mesh.position.x =
-      this.index < this.grid.height
-        ? -Math.floor(this.grid.width / 2)
-        : Math.ceil(this.grid.width / 2)
-    this.mesh.position.z = -1.6 + (this.index % this.grid.height)
+    this.mesh.position.x = this.index < this.grid.height ? this.grid.minX : this.grid.maxX
+    this.mesh.position.z = this.grid.minZ + 0.35 + (this.index % this.grid.height)
     this.mesh.rotation.y = Random.float({ max: 10 })
     this.scene.add(this.mesh)
   }

@@ -1,46 +1,78 @@
 import Experience from '@experience'
-import { Mesh, MeshStandardMaterial, PlaneGeometry, SRGBColorSpace } from 'three'
+import { Mesh, MeshStandardMaterial, PlaneGeometry, RepeatWrapping, SRGBColorSpace } from 'three'
 
 export default class Walls {
-  constructor() {
+  constructor(grid) {
     this.experience = Experience.instance
     this.debug = this.experience.debug
     this.renderer = this.experience.renderer
     this.resources = this.experience.resources
     this.scene = this.experience.scene
 
+    this.height = 4
+    this.grid = grid
+
+    this.setHorizontalWalls()
+    this.setVerticalWalls()
+  }
+
+  getTextures(repeatX) {
     const textures = {
-      aoMap: this.resources.items.bricksAO,
-      displacementMap: this.resources.items.bricksDisplacement,
-      map: this.resources.items.bricksDiffuse,
-      normalMap: this.resources.items.bricksNormal,
-      // roughness: this.resources.items.bricksRoughness,
+      aoMap: this.resources.items.bricksAO.clone(),
+      displacementMap: this.resources.items.bricksDisplacement.clone(),
+      map: this.resources.items.bricksDiffuse.clone(),
+      normalMap: this.resources.items.bricksNormal.clone(),
     }
+
+    Object.values(textures).forEach(t => {
+      t.repeat.x = repeatX / 4
+      t.repeat.y = this.height / 4
+      t.wrapS = RepeatWrapping
+      t.wrapT = RepeatWrapping
+    })
 
     textures.map.colorSpace = SRGBColorSpace
     textures.map.anisotropy = this.renderer.maxAnisotropy
 
-    const material = new MeshStandardMaterial({ ...textures, displacementScale: 0.1 })
+    return textures
+  }
 
-    this.wallN = new Mesh(new PlaneGeometry(8, 4), material)
-    this.wallN.position.y = 2
-    this.wallN.position.z = -2
+  setHorizontalWalls() {
+    const geometry = new PlaneGeometry(this.grid.width, this.height)
+    const material = new MeshStandardMaterial({
+      ...this.getTextures(this.grid.width),
+      displacementScale: 0.1,
+    })
 
-    this.wallS = this.wallN.clone()
-    this.wallS.rotation.y += Math.PI
-    this.wallS.position.y = 2
-    this.wallS.position.z = 3
+    this.wallTop = new Mesh(geometry, material)
+    this.wallTop.position.z = this.grid.minZ
+    this.wallTop.position.y = this.height / 2
+    this.wallTop.position.x = this.grid.width % 2 ? 0.5 : 0
 
-    this.wallW = new Mesh(new PlaneGeometry(5, 4), material)
-    this.wallW.rotation.y = Math.PI * 0.5
-    this.wallW.position.x = -4
-    this.wallW.position.y = 2
-    this.wallW.position.z = 0.5
+    this.wallBottom = this.wallTop.clone()
+    this.wallBottom.rotation.y += Math.PI
+    this.wallBottom.position.z = this.grid.maxZ
 
-    this.wallE = this.wallW.clone()
-    this.wallE.rotation.y += Math.PI
-    this.wallE.position.x = -this.wallW.position.x
+    this.scene.add(this.wallTop, this.wallBottom)
+  }
 
-    this.scene.add(this.wallN, this.wallS, this.wallW, this.wallE)
+  setVerticalWalls() {
+    const geometry = new PlaneGeometry(this.grid.height, this.height)
+    const material = new MeshStandardMaterial({
+      ...this.getTextures(this.grid.height),
+      displacementScale: 0.1,
+    })
+
+    this.wallLeft = new Mesh(geometry, material)
+    this.wallLeft.rotation.y = Math.PI * 0.5
+    this.wallLeft.position.x = this.grid.minX
+    this.wallLeft.position.y = this.height / 2
+    this.wallLeft.position.z = this.grid.height % 2 ? 0.5 : 0
+
+    this.wallRight = this.wallLeft.clone()
+    this.wallRight.rotation.y += Math.PI
+    this.wallRight.position.x = this.grid.maxX
+
+    this.scene.add(this.wallLeft, this.wallRight)
   }
 }

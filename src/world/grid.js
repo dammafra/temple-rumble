@@ -3,6 +3,22 @@ import Random from '@utils/random'
 import { Box3, Group, Vector3 } from 'three'
 
 export default class Grid {
+  get minX() {
+    return -Math.floor(this.width / 2)
+  }
+
+  get maxX() {
+    return Math.ceil(this.width / 2)
+  }
+
+  get minZ() {
+    return -Math.floor(this.height / 2)
+  }
+
+  get maxZ() {
+    return Math.ceil(this.height / 2)
+  }
+
   constructor() {
     this.experience = Experience.instance
     this.debug = this.experience.debug
@@ -32,8 +48,8 @@ export default class Grid {
     this.tilesGroup = new Group()
     this.scene.add(this.tilesGroup)
 
-    for (let z = -Math.floor(this.height / 2) + 1; z <= Math.ceil(this.height / 2); z++) {
-      for (let x = -Math.floor(this.width / 2) + 1; x <= Math.ceil(this.width / 2); x++) {
+    for (let z = this.minZ + 1; z <= this.maxZ; z++) {
+      for (let x = this.minX + 1; x <= this.maxX; x++) {
         const tile = this.baseTile.clone()
         tile.position.x = x - this.offset
         tile.position.z = z - this.offset
