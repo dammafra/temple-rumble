@@ -74,8 +74,10 @@ export default class Grid {
     return { x, z }
   }
 
-  contains(x, z) {
-    const offset = 0.5
+  contains(position) {
+    const offset = 0.25
+    const { x, z } = position
+
     return (
       x > this.minX + offset &&
       x < this.maxX - offset &&

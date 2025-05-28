@@ -10,7 +10,7 @@ import {
 } from 'three'
 
 export default class Walls {
-  constructor(grid) {
+  constructor(game) {
     this.experience = Experience.instance
     this.debug = this.experience.debug
     this.renderer = this.experience.renderer
@@ -18,7 +18,7 @@ export default class Walls {
     this.scene = this.experience.scene
 
     this.height = 4
-    this.grid = grid
+    this.grid = game.grid
 
     this.setHorizontalWalls()
     this.setVerticalWalls()

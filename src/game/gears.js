@@ -7,14 +7,14 @@ export default class Gears {
   static base
   static iMesh
 
-  constructor(grid) {
+  constructor(game) {
     this.experience = Experience.instance
     this.debug = this.experience.debug
     this.time = this.experience.time
     this.resources = this.experience.resources
     this.scene = this.experience.scene
 
-    this.grid = grid
+    this.grid = game.grid
     this.offset = new Vector3(0.1, 2, 0.35)
     this.scale = new Vector3(0.7, 3.8, 0.7)
 

@@ -1,17 +1,21 @@
 import Experience from '@experience'
-import { AnimationMixer, Vector2 } from 'three'
+import { AnimationMixer, Vector2, Vector3 } from 'three'
+import Controller from './controller'
 
 export default class Character {
-  constructor(grid) {
+  constructor(game) {
     this.experience = Experience.instance
     this.time = this.experience.time
     this.resources = this.experience.resources
     this.scene = this.experience.scene
-    this.grid = grid
+
+    this.game = game
+    this.grid = game.grid
+    this.controller = new Controller(this)
 
     this.isMoving = false
-    this.moveSpeed = 3
-    this.rotationSpeed = 10
+    this.moveSpeed = 3.5
+    this.rotationSpeed = 15
     this.direction = new Vector2()
 
     this.setMesh()
@@ -67,17 +71,15 @@ export default class Character {
     }
   }
 
-  update() {
-    this.animationMixer?.update(this.time.delta)
-
+  move() {
     if (!this.isMoving) return
 
     const newX = this.mesh.position.x + this.direction.x * this.moveSpeed * this.time.delta
     const newZ = this.mesh.position.z + this.direction.y * this.moveSpeed * this.time.delta
+    const newPosition = new Vector3(newX, this.mesh.position.y, newZ)
 
-    if (this.grid.contains(newX, newZ)) {
-      this.mesh.position.x = newX
-      this.mesh.position.z = newZ
+    if (this.grid.contains(newPosition) && this.game.checkPosition(newPosition)) {
+      this.mesh.position.copy(newPosition)
     }
 
     const currentAngle = this.mesh.rotation.y
@@ -87,5 +89,16 @@ export default class Character {
     angleDiff = ((angleDiff + Math.PI) % (2 * Math.PI)) - Math.PI
 
     this.mesh.rotation.y = currentAngle + angleDiff * this.time.delta * this.rotationSpeed
+  }
+
+  update() {
+    this.controller.update()
+    this.animationMixer?.update(this.time.delta)
+
+    if (!this.game.checkPosition(this.mesh.position)) {
+      this.game.pushPosition(this.mesh.position)
+    }
+
+    this.move()
   }
 }
