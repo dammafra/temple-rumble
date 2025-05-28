@@ -9,7 +9,7 @@ export default class Character {
     this.scene = this.experience.scene
 
     this.isMoving = false
-    this.moveSpeed = 0.03
+    this.moveSpeed = 3
     this.rotationSpeed = 10
     this.direction = new Vector2()
 
@@ -51,7 +51,7 @@ export default class Character {
     this.runAction.enabled = false
   }
 
-  setMovement(isMoving, direction) {
+  setMovement(isMoving = false, direction = new Vector2()) {
     this.direction.copy(direction)
 
     if (this.isMoving === isMoving) return
@@ -71,8 +71,8 @@ export default class Character {
 
     if (!this.isMoving) return
 
-    this.mesh.position.x += this.direction.x * this.moveSpeed
-    this.mesh.position.z += this.direction.y * this.moveSpeed
+    this.mesh.position.x += this.direction.x * this.moveSpeed * this.time.delta
+    this.mesh.position.z += this.direction.y * this.moveSpeed * this.time.delta
 
     const currentAngle = this.mesh.rotation.y
     const targetAngle = Math.atan2(this.direction.x, this.direction.y)

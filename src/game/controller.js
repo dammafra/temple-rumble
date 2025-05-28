@@ -1,5 +1,7 @@
 import Experience from '@experience'
+import Touch from '@utils/touch'
 import kd from 'keydrown'
+import nipplejs from 'nipplejs'
 import { Vector2 } from 'three'
 
 export default class Controller {
@@ -19,6 +21,31 @@ export default class Controller {
     kd.RIGHT.up(() => this.onKeyUp('RIGHT'))
     kd.DOWN.up(() => this.onKeyUp('DOWN'))
     kd.LEFT.up(() => this.onKeyUp('LEFT'))
+
+    this.setGamepad()
+  }
+
+  setGamepad() {
+    if (!Touch.support) return
+
+    const container = document.createElement('div')
+    container.classList.add('nipplejs-container')
+    document.body.append(container)
+
+    const joystick = nipplejs.create({
+      zone: container,
+      mode: 'dynamic',
+      size: 120,
+    })
+
+    joystick.on('move', (_, data) => {
+      const direction = new Vector2(data.vector.x, -data.vector.y)
+      this.character.setMovement(true, this.normalizeDirection(direction))
+    })
+
+    joystick.on('end', () => {
+      this.character.setMovement(false)
+    })
   }
 
   onArrowUp() {
@@ -54,16 +81,19 @@ export default class Controller {
     if (this.activeKeys.has('LEFT')) direction.x -= 1
     if (this.activeKeys.has('RIGHT')) direction.x += 1
 
+    this.character.setMovement(this.activeKeys.size > 0, this.normalizeDirection(direction))
+  }
+
+  normalizeDirection(direction) {
     direction.normalize()
 
-    // Apply portrait mode transformation if needed
     if (this.sizes.isPortrait) {
       const temp = direction.x
       direction.x = -direction.y
       direction.y = temp
     }
 
-    this.character.setMovement(this.activeKeys.size > 0, direction)
+    return direction
   }
 
   update() {
