@@ -2,6 +2,7 @@ import Experience from '@experience'
 import gsap from 'gsap'
 import { MathUtils } from 'three'
 import Character from './character'
+import Controller from './controller'
 import Gears from './gears'
 import Grid from './grid'
 import Pillars from './pillars'
@@ -19,6 +20,7 @@ export default class Game {
     this.gears = new Gears(this.grid)
     this.pillars = new Pillars(this.grid)
     this.character = new Character()
+    this.controller = new Controller(this.character)
 
     const outerPillars = [0, 4, 5, 9]
     const innerPillars = [1, 2, 3, 6, 7, 8]
@@ -39,6 +41,8 @@ export default class Game {
   }
 
   resize(skip) {
+    this.controller.resize()
+
     this.camera.controls.rotateAzimuthTo(this.sizes.isPortrait ? -90 * MathUtils.DEG2RAD : 0, !skip)
     this.camera.controls.fitToBox(this.grid.iMesh, !skip, {
       cover: true,
@@ -68,5 +72,6 @@ export default class Game {
 
   update() {
     this.character.update()
+    this.controller.update()
   }
 }

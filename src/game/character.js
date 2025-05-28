@@ -9,6 +9,8 @@ export default class Character {
     this.resources = this.experience.resources
     this.scene = this.experience.scene
 
+    this.moveSpeed = 0.01
+
     // mesh
     this.mesh = this.resources.items.character.scene
 
@@ -43,5 +45,18 @@ export default class Character {
 
   update() {
     this.animationMixer?.update(this.time.delta)
+  }
+
+  moveLeft() {
+    this.mesh.position.x -= this.moveSpeed
+  }
+  moveRight() {
+    this.mesh.position.x += this.moveSpeed
+  }
+  moveUp() {
+    this.mesh.position.z -= this.moveSpeed
+  }
+  moveDown() {
+    this.mesh.position.z += this.moveSpeed
   }
 }
