@@ -41,8 +41,6 @@ export default class Game {
   }
 
   resize(skip) {
-    this.controller.resize()
-
     this.camera.controls.rotateAzimuthTo(this.sizes.isPortrait ? -90 * MathUtils.DEG2RAD : 0, !skip)
     this.camera.controls.fitToBox(this.grid.iMesh, !skip, {
       cover: true,
