@@ -85,15 +85,13 @@ export default class Controller {
   }
 
   normalizeDirection(direction) {
-    direction.normalize()
-
     if (this.sizes.isPortrait) {
       const temp = direction.x
       direction.x = -direction.y
       direction.y = temp
     }
 
-    return direction
+    return direction.normalize()
   }
 
   update() {

@@ -2,11 +2,12 @@ import Experience from '@experience'
 import { AnimationMixer, Vector2 } from 'three'
 
 export default class Character {
-  constructor() {
+  constructor(grid) {
     this.experience = Experience.instance
     this.time = this.experience.time
     this.resources = this.experience.resources
     this.scene = this.experience.scene
+    this.grid = grid
 
     this.isMoving = false
     this.moveSpeed = 3
@@ -71,8 +72,13 @@ export default class Character {
 
     if (!this.isMoving) return
 
-    this.mesh.position.x += this.direction.x * this.moveSpeed * this.time.delta
-    this.mesh.position.z += this.direction.y * this.moveSpeed * this.time.delta
+    const newX = this.mesh.position.x + this.direction.x * this.moveSpeed * this.time.delta
+    const newZ = this.mesh.position.z + this.direction.y * this.moveSpeed * this.time.delta
+
+    if (this.grid.contains(newX, newZ)) {
+      this.mesh.position.x = newX
+      this.mesh.position.z = newZ
+    }
 
     const currentAngle = this.mesh.rotation.y
     const targetAngle = Math.atan2(this.direction.x, this.direction.y)

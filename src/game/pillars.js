@@ -13,8 +13,8 @@ export default class Pillars {
 
     this.color = '#7c93d2'
     this.grid = grid
-    this.offset = new Vector3(1.6, 0.5, 0.5)
-    this.scale = new Vector3(0.07, 0.135, 0.1) // TODO: `0.135` should be computed from `this.grid.width / 2`
+    this.offset = new Vector3(1.55, 0.5, 0.5)
+    this.scale = new Vector3(0.075, 0.14, 0.1) // TODO: derive `0.14` from `this.grid.width / 2`
 
     this.initBase()
     this.init()

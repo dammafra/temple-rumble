@@ -19,25 +19,38 @@ export default class Game {
     this.walls = new Walls(this.grid)
     this.gears = new Gears(this.grid)
     this.pillars = new Pillars(this.grid)
-    this.character = new Character()
+    this.character = new Character(this.grid)
     this.controller = new Controller(this.character)
 
+    // start animation ---
     const outerPillars = [0, 4, 5, 9]
     const innerPillars = [1, 2, 3, 6, 7, 8]
-    this.state = Array.from({ length: this.pillars.count }, (_, i) => ({
-      step: outerPillars.includes(i) ? 2 : 1,
-    }))
+    this.state = Array.from({ length: this.pillars.count }, (_, i) => ({ step: 1 }))
+
+    const animation = () => {
+      innerPillars.map(i => this.movePillar(i, 3))
+      outerPillars
+        .map(i => this.movePillar(i, 4))
+        .at(0)
+        .then(() => this.camera.tilt())
+        .then(() => outerPillars.concat(innerPillars).forEach(i => this.movePillar(i, 1)))
+    }
+
+    gsap.to(
+      { value: 0 },
+      {
+        value: 1,
+        repeat: -1,
+        duration: 5,
+        onStart: animation,
+        onRepeat: animation,
+      },
+    )
+    // ---
 
     // TODO improve this workaround
     this.resize(true)
     this.resize(true)
-
-    innerPillars.map(i => this.movePillar(i, 3))
-    outerPillars
-      .map(i => this.movePillar(i, 4))
-      .at(0)
-      .then(() => this.camera.tilt())
-      .then(() => outerPillars.concat(innerPillars).forEach(i => this.movePillar(i, 1)))
   }
 
   resize(skip) {
