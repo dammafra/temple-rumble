@@ -34,6 +34,8 @@ export default class Time extends EventDispatcher {
   }
 
   tick = () => {
+    window.requestAnimationFrame(this.tick)
+
     if (this.paused) return
 
     this.debug?.stats.begin()
@@ -45,6 +47,5 @@ export default class Time extends EventDispatcher {
     this.dispatchEvent({ type: 'tick' })
 
     this.debug?.stats.end()
-    window.requestAnimationFrame(this.tick)
   }
 }
