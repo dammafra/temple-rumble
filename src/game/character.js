@@ -36,8 +36,8 @@ export default class Character {
     this.grid = game.grid
 
     this.isMoving = false
-    this.moveSpeed = 3.5
-    this.rotationSpeed = 15
+    this.moveSpeed = 3
+    this.rotationSpeed = 10
     this.direction = new Vector2()
 
     this.setMesh()

@@ -23,18 +23,16 @@ export default class Menu {
   }
 
   open() {
-    Overlay.instance.close()
-
     const aspectRatio = window.innerWidth / window.innerHeight
     this.menuTextLeft.show(aspectRatio < 1 ? 'bottom' : 'right')
     this.menuTextRight.show(aspectRatio < 1 ? 'top' : 'left')
     this.startButton.show('right')
     this.creditsButton.show('left')
+
+    return Overlay.instance.close()
   }
 
   close() {
-    Overlay.instance.open()
-
     this.startButton.disable()
     this.creditsButton.disable()
 
@@ -42,5 +40,7 @@ export default class Menu {
     this.menuTextRight.hide()
     this.startButton.hide()
     this.creditsButton.hide()
+
+    return Overlay.instance.open()
   }
 }

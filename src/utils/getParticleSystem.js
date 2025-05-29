@@ -209,8 +209,8 @@ function getParticleSystem(params) {
     })
   }
 
-  function update(timeElapsed) {
-    _AddParticles(timeElapsed)
+  function update(timeElapsed, kill) {
+    if (!kill) _AddParticles(timeElapsed)
     _UpdateParticles(timeElapsed)
     _UpdateGeometry()
   }

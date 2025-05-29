@@ -68,16 +68,17 @@ export default class Game {
    * derive quantities from `this.grid` size
    */
   setParticles() {
+    this.aliveParticles = []
+
     this.particles = Array.from({ length: 5 }, (_, i) => {
       const paricles = getParticleSystem({
         camera: this.camera.instance,
         emitter: { position: new Vector3(0, 0.5, i + 0.5 - 2) },
         parent: this.scene,
-        rate: 20,
+        rate: 50,
         texture: './particles/smoke.png',
         radius: 0.5,
       })
-      paricles.points.visible = false
       return paricles
     })
   }
@@ -197,14 +198,13 @@ export default class Game {
 
     collisions.forEach(c => {
       const particles = this.particles.at(c.index)
-      particles.points.position.x += c.shift
-      particles.points.visible = true
+      particles.points.position.x = c.shift
+      this.aliveParticles.push(c.index)
     })
+
     await this.camera.tilt()
-    this.particles.forEach(p => {
-      p.points.position.x = 0
-      p.points.visible = false
-    })
+
+    this.aliveParticles = []
   }
   // ---------------------------------------------------------------------
 
@@ -288,7 +288,7 @@ export default class Game {
 
   update() {
     this.character.update()
-    this.particles.forEach(p => p.update(this.time.delta * 0.5))
+    this.particles.forEach((p, i) => p.update(this.time.delta, !this.aliveParticles.includes(i)))
   }
 
   updateSeconds() {
