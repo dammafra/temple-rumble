@@ -54,7 +54,17 @@ TBD
 
 ### Sounds
 
-TBD
+- Pillars sound effect by <a href="https://pixabay.com/users/u_i15wxund59-49649042/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=322794">u_i15wxund59</a> from <a href="https://pixabay.com/sound-effects//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=322794">Pixabay</a>
+
+- Cogs sound effect by <a href="https://pixabay.com/users/freesound_community-46691455/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=83386">freesound_community</a> from <a href="https://pixabay.com/sound-effects//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=83386">Pixabay</a>
+
+- Impact sound effect by <a href="https://pixabay.com/users/audiopapkin-14728698/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=324438">Paweł Spychała</a> from <a href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=324438">Pixabay</a>
+
+- Run sound effect by <a href="https://pixabay.com/users/freesoundsxx-47251115/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=268478">FreeSoundsxx</a> from <a href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=268478">Pixabay</a>
+
+- Background Loop sound effect by <a href="https://pixabay.com/users/freesound_community-46691455/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=103173">freesound_community</a> from <a href="https://pixabay.com/sound-effects//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=103173">Pixabay</a>
+
+- Death sound effect by <a href="https://pixabay.com/users/vinodadora-30315691/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=128357">Hiran Vinodya</a> from <a href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=128357">Pixabay</a>
 
 ## Feedback
 
