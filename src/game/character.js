@@ -1,5 +1,5 @@
 import Experience from '@experience'
-import { AnimationMixer, Vector2, Vector3 } from 'three'
+import { AnimationMixer, LoopOnce, Vector2, Vector3 } from 'three'
 import Controller from './controller'
 
 export default class Character {
@@ -9,6 +9,7 @@ export default class Character {
     this.resources = this.experience.resources
     this.scene = this.experience.scene
 
+    this.enabled = false
     this.game = game
     this.grid = game.grid
     this.controller = new Controller(this)
@@ -24,8 +25,12 @@ export default class Character {
 
   setMesh() {
     this.mesh = this.resources.items.character.scene
+
+    this.defaultPosition = new Vector3(0, 0.05, 0.5)
+    this.mesh.position.copy(this.defaultPosition)
+
     this.mesh.scale.setScalar(0.6)
-    this.mesh.position.y = 0.05
+
     this.mesh.traverse(child => {
       if (child.isMesh) {
         child.material.metalness = 0
@@ -42,9 +47,11 @@ export default class Character {
 
     const idleIndex = animations.findIndex(a => a.name.toLowerCase().includes('idle'))
     const runIndex = animations.findIndex(a => a.name.toLowerCase().includes('run'))
+    const deathIndex = animations.findIndex(a => a.name.toLowerCase().includes('death'))
 
     this.idleAnimation = animations[idleIndex]
     this.runAnimation = animations[runIndex]
+    this.deathAnimation = animations[deathIndex]
 
     this.animationMixer = new AnimationMixer(this.mesh)
 
@@ -54,9 +61,15 @@ export default class Character {
     this.runAction = this.animationMixer.clipAction(this.runAnimation)
     this.runAction.play()
     this.runAction.enabled = false
+
+    this.deathAction = this.animationMixer.clipAction(this.deathAnimation)
+    this.deathAction.setLoop(LoopOnce)
+    this.deathAction.clampWhenFinished = true
   }
 
   setMovement(isMoving = false, direction = new Vector2()) {
+    if (!this.enabled) return
+
     this.direction.copy(direction)
 
     if (this.isMoving === isMoving) return
@@ -89,6 +102,25 @@ export default class Character {
     angleDiff = ((angleDiff + Math.PI) % (2 * Math.PI)) - Math.PI
 
     this.mesh.rotation.y = currentAngle + angleDiff * this.time.delta * this.rotationSpeed
+  }
+
+  reset() {
+    this.enabled = false
+    this.mesh.position.copy(this.defaultPosition)
+    this.mesh.rotation.set(0, 0, 0)
+
+    this.deathAction.stop()
+    this.idleAction.play()
+    this.runAction.play()
+    this.runAction.enabled = false
+  }
+
+  die() {
+    this.enabled = false
+
+    this.deathAction.play()
+    this.idleAction.stop()
+    this.runAction.stop()
   }
 
   update() {

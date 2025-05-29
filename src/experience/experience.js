@@ -37,6 +37,7 @@ export default class Experience {
     // Events
     this.sizes.addEventListener('resize', this.resize)
     this.time.addEventListener('tick', this.update)
+    this.time.addEventListener('tick-seconds', this.updateSeconds)
     this.resources.addEventListener('ready', this.ready)
     this.resources.startLoading()
 
@@ -60,6 +61,10 @@ export default class Experience {
     this.camera.update()
     this.renderer.update()
     this.game?.update()
+  }
+
+  updateSeconds = () => {
+    this.game?.updateSeconds()
   }
 
   dispose() {}

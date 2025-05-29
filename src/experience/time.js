@@ -9,6 +9,7 @@ export default class Time extends EventDispatcher {
 
     // Options
     this.elapsed = 0
+    this.elapsedSeconds = 0
     this.delta = 16 // how many milliseconds there is between two frames at 60fps
     this.paused = false
 
@@ -45,6 +46,12 @@ export default class Time extends EventDispatcher {
     this.elapsed = this.timer.getElapsed()
 
     this.dispatchEvent({ type: 'tick' })
+
+    const currentSeconds = Math.floor(this.elapsed)
+    if (this.elapsedSeconds < currentSeconds) {
+      this.dispatchEvent({ type: 'tick-seconds' })
+    }
+    this.elapsedSeconds = currentSeconds
 
     this.debug?.stats.end()
   }
