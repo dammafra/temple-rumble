@@ -33,6 +33,6 @@ export default class Loading {
 
   dispose() {
     this.element.remove()
-    Menu.instance.open()
+    Menu.instance?.open()
   }
 }

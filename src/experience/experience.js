@@ -31,7 +31,6 @@ export default class Experience {
     this.resources = new Resources(loading)
     this.scene = new Scene()
     this.camera = new Camera()
-    this.environment = new Environment()
     this.renderer = new Renderer()
 
     // Events
@@ -53,6 +52,7 @@ export default class Experience {
   ready = () => {
     this.loading.stop()
 
+    this.environment = new Environment()
     this.soundPlayer = new SoundPlayer()
     this.game = new Game()
   }

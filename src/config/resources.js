@@ -13,12 +13,17 @@ const resourcesConfig = [
   {
     name: 'gear',
     type: 'gltfModel',
-    path: './models/gear4.glb',
+    path: './models/gear.glb',
   },
   {
     name: 'pillar',
     type: 'gltfModel',
     path: './models/pillar.glb',
+  },
+  {
+    name: 'torch',
+    type: 'gltfModel',
+    path: './models/torch.glb',
   },
   // textures
   {

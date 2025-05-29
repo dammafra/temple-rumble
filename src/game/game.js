@@ -45,7 +45,7 @@ export default class Game {
       this.start()
     })
 
-    Menu.instance.startButton.onClick(() => {
+    Menu.instance?.startButton.onClick(() => {
       Menu.instance.close()
       this.start()
     })

@@ -1,5 +1,5 @@
 import Experience from '@experience'
-import { AmbientLight, PointLight } from 'three'
+import { AmbientLight, PointLight, Vector3 } from 'three'
 
 export default class Environment {
   constructor() {
@@ -7,30 +7,52 @@ export default class Environment {
     this.experience = Experience.instance
     this.debug = this.experience.debug
     this.scene = this.experience.scene
+    this.resources = this.experience.resources
 
-    this.setLight()
+    this.ambientLightColor = '#cf943b'
+    this.pointLightColor = '#cf943b'
+    this.pointLightPositions = [
+      new Vector3(-2.5, 2.5, -1.7),
+      new Vector3(2.5, 2.5, -1.7),
+      new Vector3(-2.5, 2.5, 2.7),
+      new Vector3(2.5, 2.5, 2.7),
+    ]
+
+    this.setAmbientLight()
+    this.setPointLights()
+    this.setMeshes()
+
     this.setDebug()
   }
 
-  setLight() {
-    this.ambientLightColor = '#cf943b'
+  setAmbientLight() {
     this.ambientLight = new AmbientLight(this.ambientLightColor, 1)
     this.scene.add(this.ambientLight)
+  }
 
-    this.pointLightColor = '#cf943b'
-    this.pointLight = new PointLight(this.pointLightColor, 30)
-    this.pointLight.position.set(-2.5, 2.5, -1.7)
+  setPointLights() {
+    this.pointLights = this.pointLightPositions.map(p => {
+      const pointLight = new PointLight(this.pointLightColor, 30)
+      pointLight.position.copy(p)
+      this.scene.add(pointLight)
+      return pointLight
+    })
+  }
 
-    this.pointLight2 = this.pointLight.clone()
-    this.pointLight2.position.set(2.5, 2.5, -1.7)
+  setMeshes() {
+    this.resources.items.torch.scene.traverse(child => {
+      if (child.name === 'coffin___gravesTorch_low') this.base = child
+    })
+    this.base.scale.setScalar(0.05)
 
-    this.pointLight3 = this.pointLight.clone()
-    this.pointLight3.position.set(-2.5, 2.5, 2.7)
-
-    this.pointLight4 = this.pointLight.clone()
-    this.pointLight4.position.set(2.5, 2.5, 2.7)
-
-    this.scene.add(this.pointLight, this.pointLight2, this.pointLight3, this.pointLight4)
+    this.meshes = this.pointLightPositions.map((p, i) => {
+      const mesh = this.base.clone()
+      mesh.position.copy(p)
+      mesh.position.y -= 1.8
+      mesh.rotation.y = i > 1 ? Math.PI : 0
+      this.scene.add(mesh)
+      return mesh
+    })
   }
 
   setDebug() {
@@ -41,21 +63,12 @@ export default class Environment {
       .addBinding(this, 'ambientLightColor', { label: 'ambient color' })
       .on('change', e => this.ambientLight.color.set(e.value))
 
-    folder.addBinding(this, 'pointLightColor', { label: 'lights color' }).on('change', e => {
-      this.pointLight.color.set(e.value)
-      this.pointLight2.color.set(e.value)
-      this.pointLight3.color.set(e.value)
-      this.pointLight4.color.set(e.value)
-    })
+    folder
+      .addBinding(this, 'pointLightColor', { label: 'lights color' })
+      .on('change', e => this.pointLights.forEach(pl => pl.color.set(e.value)))
 
     folder
-      .addBinding(this.pointLight, 'intensity', { label: 'lights intensity' })
-      .on('change', e => {
-        this.pointLight2.intensity = e.value
-        this.pointLight3.intensity = e.value
-        this.pointLight4.intensity = e.value
-      })
-
-    folder.addBinding(this.pointLight, 'position', { label: 'lights position' })
+      .addBinding(this.pointLights.at(0), 'intensity', { label: 'lights intensity' })
+      .on('change', e => this.pointLights.forEach(pl => (pl.intensity = e.value)))
   }
 }
