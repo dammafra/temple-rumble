@@ -26,6 +26,7 @@ export default class Game {
     this.time = this.experience.time
     this.sizes = this.experience.sizes
     this.camera = this.experience.camera
+    this.soundPlayer = this.experience.soundPlayer
 
     this.grid = new Grid()
     this.walls = new Walls(this)
@@ -120,6 +121,8 @@ export default class Game {
     this.character.die()
     Overlay.instance.close()
     await this.reset()
+    this.soundPlayer.stop('pillars')
+    this.soundPlayer.stop('cogs')
     this.restartButton.show('top')
   }
 
@@ -130,10 +133,14 @@ export default class Game {
   }
 
   sleep(seconds = 1) {
+    this.soundPlayer.stop('pillars')
+    this.soundPlayer.stop('cogs')
     return new Promise(resolve => setTimeout(() => resolve(), seconds * 1000))
   }
 
   async loop() {
+    this.soundPlayer.play('loop', { loop: true })
+
     const safeCombinations = [
       [1, 2],
       [2, 1],
@@ -183,6 +190,11 @@ export default class Game {
   }
 
   async onCollision(collisions) {
+    this.soundPlayer.stop('pillars')
+    this.soundPlayer.stop('cogs')
+
+    this.soundPlayer.play('collision', { force: true })
+
     collisions.forEach(c => {
       const particles = this.particles.at(c.index)
       particles.points.position.x += c.shift
@@ -199,6 +211,8 @@ export default class Game {
   movePillar(index, step) {
     const state = this.state.at(index)
     const directionIn = state.step - step < 0
+    this.soundPlayer.play('pillars', { loop: true, speed: 0.5 })
+    this.soundPlayer.play('cogs', { loop: true, volume: 0.1 })
 
     return gsap.to(state, {
       step,

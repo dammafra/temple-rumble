@@ -57,6 +57,37 @@ const resourcesConfig = [
     type: 'texture',
     path: './textures/shadow.jpg',
   },
+  // sounds
+  {
+    name: 'cogs',
+    type: 'sound',
+    path: '/sounds/cogs.mp3',
+  },
+  {
+    name: 'collision',
+    type: 'sound',
+    path: '/sounds/collision.mp3',
+  },
+  {
+    name: 'death',
+    type: 'sound',
+    path: '/sounds/death.mp3',
+  },
+  {
+    name: 'loop',
+    type: 'sound',
+    path: '/sounds/loop.mp3',
+  },
+  {
+    name: 'pillars',
+    type: 'sound',
+    path: '/sounds/pillars.mp3',
+  },
+  {
+    name: 'run',
+    type: 'sound',
+    path: '/sounds/run.mp3',
+  },
 ]
 
 export default resourcesConfig.filter(s => !s.skip)

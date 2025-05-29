@@ -29,6 +29,7 @@ export default class Character {
     this.resources = this.experience.resources
     this.scene = this.experience.scene
     this.controller = new Controller(this)
+    this.soundPlayer = this.experience.soundPlayer
 
     this.enabled = false
     this.game = game
@@ -118,9 +119,11 @@ export default class Character {
     if (isMoving) {
       this.runAction.reset()
       this.idleAction.crossFadeTo(this.runAction, 0.3, false)
+      this.soundPlayer.play('run', { loop: true, speed: 1.2 })
     } else {
       this.idleAction.reset()
       this.runAction.crossFadeTo(this.idleAction, 0.3, false)
+      this.soundPlayer.stop('run')
     }
   }
 
@@ -164,6 +167,8 @@ export default class Character {
     this.deathAction.play()
     this.idleAction.stop()
     this.runAction.stop()
+
+    this.soundPlayer.play('death')
   }
 
   update() {

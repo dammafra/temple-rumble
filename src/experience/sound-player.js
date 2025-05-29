@@ -6,9 +6,7 @@ export default class SoundPlayer {
     this.resources = this.experience.resources
 
     this.audioContext = new (window.AudioContext || window.webkitAudioContext)()
-
-    this.muted = false
-    this.backgrounds = new Map()
+    this.sources = new Map()
 
     /**
      * This code helps resume audioContext when the tab is suspended (e.g., when switching apps or locking the phone) and later resumed,
@@ -20,60 +18,27 @@ export default class SoundPlayer {
     )
   }
 
-  setMuted(value) {
-    this.muted = value
-    return !this.muted
-  }
-
-  async play(sound, times = 1) {
+  async play(sound, { loop, volume, speed, force } = {}) {
     const buffer = this.resources.items[sound]
 
-    if (!buffer || this.muted) return
-
-    let playCount = 0
-    const playSound = () => {
-      if (playCount >= times) return
-      playCount++
-      const source = this.audioContext.createBufferSource()
-      source.buffer = buffer
-
-      const gainNode = this.audioContext.createGain()
-      gainNode.gain.value = 0.5
-
-      source.connect(gainNode).connect(this.audioContext.destination)
-      source.start()
-      source.onended = playSound
-    }
-
-    playSound()
-  }
-
-  async playBackground(sound, volume) {
-    if (this.backgrounds.has(sound)) return
-
-    const buffer = this.resources.items[sound]
+    if (!force && (!buffer || this.sources.get(sound))) return
 
     const source = this.audioContext.createBufferSource()
     source.buffer = buffer
-    source.loop = true
+    source.loop = loop
+    source.playbackRate.value = typeof speed === 'undefined' ? 1 : speed
 
     const gainNode = this.audioContext.createGain()
-    gainNode.gain.value = volume
+    gainNode.gain.value = typeof volume === 'undefined' ? 0.5 : volume
+
     source.connect(gainNode).connect(this.audioContext.destination)
     source.start()
 
-    this.backgrounds.set(sound, { source, gainNode })
-    return true
+    this.sources.set(sound, source)
   }
 
-  async stopBackground(sound) {
-    this.backgrounds.get(sound)?.source.stop()
-    this.backgrounds.delete(sound)
-    return false
-  }
-
-  async updateBackgoundVolume(sound, volume) {
-    if (!this.backgrounds.has(sound)) return
-    this.backgrounds.get(sound).gainNode.gain.value = volume
+  async stop(sound) {
+    this.sources.get(sound)?.stop()
+    this.sources.delete(sound)
   }
 }
