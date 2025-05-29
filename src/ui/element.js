@@ -14,7 +14,6 @@ export default class Element {
 
   show(direction) {
     if (this.visible) return
-
     this.visible = true
 
     this.enable()
@@ -46,6 +45,7 @@ export default class Element {
   }
 
   hide() {
+    if (!this.visible) return
     this.visible = false
 
     this.animation?.kill()
