@@ -3,16 +3,27 @@ import { AnimationMixer, LoopOnce, Vector2, Vector3 } from 'three'
 import Controller from './controller'
 
 export default class Character {
+  #enabled = false
+
+  get enabled() {
+    return this.#enabled
+  }
+
+  set enabled(value) {
+    this.#enabled = value
+    this.controller.enabled = value
+  }
+
   constructor(game) {
     this.experience = Experience.instance
     this.time = this.experience.time
     this.resources = this.experience.resources
     this.scene = this.experience.scene
+    this.controller = new Controller(this)
 
     this.enabled = false
     this.game = game
     this.grid = game.grid
-    this.controller = new Controller(this)
 
     this.isMoving = false
     this.moveSpeed = 3.5

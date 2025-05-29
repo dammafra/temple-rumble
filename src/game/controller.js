@@ -5,12 +5,20 @@ import nipplejs from 'nipplejs'
 import { Vector2 } from 'three'
 
 export default class Controller {
+  set enabled(value) {
+    this.element.classList.toggle('hidden', !value)
+  }
+
   constructor(character) {
     this.experience = Experience.instance
     this.sizes = this.experience.sizes
     this.character = character
 
     this.activeKeys = new Set()
+
+    this.element = document.createElement('div')
+    this.element.classList.add('nipplejs-container')
+    document.body.append(this.element)
 
     kd.UP.down(this.onArrowUp.bind(this))
     kd.RIGHT.down(this.onArrowRight.bind(this))
@@ -28,12 +36,8 @@ export default class Controller {
   setGamepad() {
     if (!Touch.support) return
 
-    const container = document.createElement('div')
-    container.classList.add('nipplejs-container')
-    document.body.append(container)
-
     const joystick = nipplejs.create({
-      zone: container,
+      zone: this.element,
       mode: 'dynamic',
       size: 120,
     })
