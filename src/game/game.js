@@ -31,6 +31,7 @@ export default class Game {
     // TODO improve
     this.restartButton = document.getElementById('restart')
     this.restartButton.onclick = () => this.start()
+    this.timerText = document.getElementById('timer')
 
     this.init()
     this.start()
@@ -58,7 +59,10 @@ export default class Game {
 
   start() {
     this.character.reset()
+
     this.restartButton.classList.add('hidden')
+    this.timerText.classList.add('hidden')
+    this.timerText.textContent = this.time
 
     Promise.all(this.state.map((_, i) => this.movePillar(i, [0, 4, 5, 9].includes(i) ? 4 : 3)))
       .then(() => this.camera.tilt())
@@ -97,7 +101,6 @@ export default class Game {
       [2, 2],
     ]
 
-    this.started = true
     this.speed = Math.max(this.minSpeed, this.speed - this.speedDelta)
 
     const safeSpots = new Set()
@@ -113,7 +116,11 @@ export default class Game {
         return [this.movePillar(i, combination.at(0)), this.movePillar(i + 5, combination.at(1))]
       }).flat(),
     )
-      .then(() => (this.character.enabled = true))
+      .then(() => {
+        this.started = true
+        this.character.enabled = true
+        this.timerText.classList.remove('hidden')
+      })
       .then(() => this.await())
       .then(() => Promise.all(this.state.map((s, i) => this.movePillar(i, s.step + 2))))
       .then(() => this.camera.tilt())
@@ -208,6 +215,7 @@ export default class Game {
 
   updateSeconds() {
     if (!this.started) return
+    this.timerText.textContent = this.time
     this.time++
   }
 }

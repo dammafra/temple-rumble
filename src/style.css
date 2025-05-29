@@ -36,6 +36,10 @@ main {
   @apply text-7xl text-amber-300 font-sketch;
 }
 
+#timer {
+  @apply font-sketch absolute z-20 bg-amber-950 text-amber-300 text-4xl px-5 w-20 border-amber-300 border-4  left-1/2 -translate-x-1/2 top-7 text-center;
+}
+
 #restart {
-  @apply font-sketch absolute z-20 bg-amber-950 text-amber-300 text-7xl p-5 border-amber-300 border-4 left-1/2 -translate-x-1/2 bottom-7 hover:bg-amber-900 active:bg-amber-900 cursor-pointer;
+  @apply font-sketch absolute z-20 bg-amber-950 text-amber-300 text-5xl p-5 border-amber-300 border-4 left-1/2 -translate-x-1/2 bottom-7 hover:bg-amber-900 active:bg-amber-900 cursor-pointer;
 }
