@@ -1,5 +1,14 @@
 import Experience from '@experience'
-import { AnimationMixer, LoopOnce, Vector2, Vector3 } from 'three'
+import {
+  AnimationMixer,
+  LoopOnce,
+  Mesh,
+  MeshBasicMaterial,
+  PlaneGeometry,
+  SRGBColorSpace,
+  Vector2,
+  Vector3,
+} from 'three'
 import Controller from './controller'
 
 export default class Character {
@@ -31,6 +40,7 @@ export default class Character {
     this.direction = new Vector2()
 
     this.setMesh()
+    this.setShadow()
     this.setAnimations()
   }
 
@@ -50,6 +60,25 @@ export default class Character {
     })
 
     this.scene.add(this.mesh)
+  }
+
+  setShadow() {
+    const texture = this.resources.items.shadow
+    texture.colorSpace = SRGBColorSpace
+
+    this.shadow = new Mesh(
+      new PlaneGeometry(),
+      new MeshBasicMaterial({
+        color: 0x000000,
+        transparent: true,
+        alphaMap: texture,
+      }),
+    )
+
+    this.shadow.rotation.x = -Math.PI * 0.5
+    this.shadow.position.y = 0.08
+
+    this.scene.add(this.shadow)
   }
 
   setAnimations() {
@@ -96,6 +125,9 @@ export default class Character {
   }
 
   move() {
+    this.shadow.position.x = this.mesh.position.x
+    this.shadow.position.z = this.mesh.position.z
+
     if (!this.isMoving || !this.enabled) return
 
     const newX = this.mesh.position.x + this.direction.x * this.moveSpeed * this.time.delta

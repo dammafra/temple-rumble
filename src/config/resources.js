@@ -52,6 +52,11 @@ const resourcesConfig = [
     path: './textures/bricks/roughness.png',
     skip: true,
   },
+  {
+    name: 'shadow',
+    type: 'texture',
+    path: './textures/shadow.jpg',
+  },
 ]
 
 export default resourcesConfig.filter(s => !s.skip)
