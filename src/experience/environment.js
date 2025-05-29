@@ -1,7 +1,7 @@
 import Experience from '@experience'
 import { getParticleSystem } from '@utils/getParticleSystem'
 import gsap from 'gsap'
-import { AmbientLight, PointLight, Vector3 } from 'three'
+import { AmbientLight, Color, PointLight, Vector3 } from 'three'
 
 export default class Environment {
   constructor() {
@@ -79,6 +79,7 @@ export default class Environment {
         texture: './particles/fire.png',
         radius: 0.1,
         offset: new Vector3(0, -0.4, 0.1 * (i > 1 ? -1 : 1)),
+        color: new Color(0xff8080),
       }),
     )
   }

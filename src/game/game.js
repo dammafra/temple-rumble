@@ -3,9 +3,10 @@ import Button from '@ui/button'
 import Menu from '@ui/menu'
 import Overlay from '@ui/overlay'
 import Text from '@ui/text'
+import { getParticleSystem } from '@utils/getParticleSystem'
 import Random from '@utils/random'
 import gsap from 'gsap'
-import { MathUtils } from 'three'
+import { MathUtils, Vector3 } from 'three'
 import Character from './character'
 import Gears from './gears'
 import Grid from './grid'
@@ -14,14 +15,15 @@ import Walls from './walls'
 
 export default class Game {
   get formattedTime() {
-    const minutes = Math.floor(this.time / 60)
-    const secs = this.time % 60
+    const minutes = Math.floor(this.timer / 60)
+    const secs = this.timer % 60
     return `${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`
   }
 
   constructor() {
     this.experience = Experience.instance
     this.scene = this.experience.scene
+    this.time = this.experience.time
     this.sizes = this.experience.sizes
     this.camera = this.experience.camera
 
@@ -31,7 +33,7 @@ export default class Game {
     this.pillars = new Pillars(this)
     this.character = new Character(this)
 
-    this.time = 0
+    this.timer = 0
     this.defaultSpeed = 1
     this.minSpeed = 0.2
     this.speedDelta = 0.05
@@ -52,6 +54,7 @@ export default class Game {
 
     this.timerText = new Text('#timer')
 
+    this.setParticles()
     this.init()
 
     // TODO improve this workaround
@@ -63,6 +66,21 @@ export default class Game {
    * TODO: improve -------------------------------------------------------
    * derive quantities from `this.grid` size
    */
+  setParticles() {
+    this.particles = Array.from({ length: 5 }, (_, i) => {
+      const paricles = getParticleSystem({
+        camera: this.camera.instance,
+        emitter: { position: new Vector3(0, 0.5, i + 0.5 - 2) },
+        parent: this.scene,
+        rate: 20,
+        texture: './particles/smoke.png',
+        radius: 0.5,
+      })
+      paricles.points.visible = false
+      return paricles
+    })
+  }
+
   init() {
     this.state = Array.from({ length: this.pillars.count }, (_, index) => {
       return {
@@ -85,7 +103,10 @@ export default class Game {
       this.state.map((_, i) => this.movePillar(i, [0, 4, 5, 9].includes(i) ? 4 : 3)),
     )
 
-    await this.camera.tilt()
+    await this.onCollision([
+      { index: 0, shift: 0 },
+      { index: 4, shift: 0 },
+    ])
     await this.sleep()
 
     this.timerText.set(this.formattedTime)
@@ -94,7 +115,7 @@ export default class Game {
 
   async stop() {
     this.started = false
-    this.time = 0
+    this.timer = 0
     this.speed = this.defaultSpeed
     this.character.die()
     Overlay.instance.close()
@@ -132,10 +153,19 @@ export default class Game {
       if (!safeSpots.has(row)) safeSpots.add(row)
     }
 
+    const collisions = []
     await Promise.all(
       Array.from({ length: 5 }, (_, i) => {
         const isSafe = safeSpots.has(i)
         const combination = Random.oneOf(isSafe ? safeCombinations : unsafeCombinations)
+
+        if (!isSafe) {
+          collisions.push({
+            index: i,
+            shift: combination.at(0) === 3 ? 1 : combination.at(0) === 1 ? -1 : 0,
+          })
+        }
+
         return [this.movePillar(i, combination.at(0)), this.movePillar(i + 5, combination.at(1))]
       }).flat(),
     )
@@ -146,10 +176,23 @@ export default class Game {
 
     await this.sleep()
     await Promise.all(this.state.map((s, i) => this.movePillar(i, s.step + 2)))
-    await this.camera.tilt()
+    await this.onCollision(collisions)
     await this.sleep(2)
 
     return this.started && this.loop()
+  }
+
+  async onCollision(collisions) {
+    collisions.forEach(c => {
+      const particles = this.particles.at(c.index)
+      particles.points.position.x += c.shift
+      particles.points.visible = true
+    })
+    await this.camera.tilt()
+    this.particles.forEach(p => {
+      p.points.position.x = 0
+      p.points.visible = false
+    })
   }
   // ---------------------------------------------------------------------
 
@@ -231,11 +274,12 @@ export default class Game {
 
   update() {
     this.character.update()
+    this.particles.forEach(p => p.update(this.time.delta * 0.5))
   }
 
   updateSeconds() {
     if (!this.started) return
     this.timerText.set(this.formattedTime)
-    this.time++
+    this.timer++
   }
 }

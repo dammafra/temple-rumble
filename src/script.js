@@ -4,13 +4,11 @@ import Menu from '@ui/menu'
 import Overlay from '@ui/overlay'
 import Debug from '@utils/debug'
 import DoubleTapPreventer from '@utils/double-tap-preventer'
-import Fullscreen from '@utils/fullscreen'
 import Versioning from '@utils/versioning'
 import 'core-js/actual'
 
 DoubleTapPreventer.init()
 Versioning.init('1.0')
-Fullscreen.init()
 
 Overlay.init()
 Menu.init()

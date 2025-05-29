@@ -65,7 +65,7 @@ function getLinearSpline(lerp) {
 }
 
 function getParticleSystem(params) {
-  const { camera, emitter, parent, rate, texture, radius, offset } = params
+  const { camera, emitter, parent, rate, texture, radius, offset, color } = params
   const uniforms = {
     diffuseTexture: {
       value: new THREE.TextureLoader().load(texture),
@@ -109,7 +109,7 @@ function getParticleSystem(params) {
     return c.lerp(b, t)
   })
   colorSpline.addPoint(0.0, new THREE.Color(0xffffff))
-  colorSpline.addPoint(1.0, new THREE.Color(0xff8080))
+  colorSpline.addPoint(1.0, color || new THREE.Color(0xffffff))
 
   const sizeSpline = getLinearSpline((t, a, b) => {
     return a + t * (b - a)
@@ -214,7 +214,7 @@ function getParticleSystem(params) {
     _UpdateParticles(timeElapsed)
     _UpdateGeometry()
   }
-  return { update }
+  return { points: _points, update }
 }
 
 export { getParticleSystem }
