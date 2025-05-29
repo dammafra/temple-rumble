@@ -12,10 +12,6 @@
   @apply select-none touch-manipulation;
 }
 
-a {
-  @apply inline-block underline;
-}
-
 main {
   @apply h-full;
 }
