@@ -1,8 +1,8 @@
 /* tailwind config */
 @import 'tailwindcss';
 
-@utility font-sketch {
-  font-family: 'Londrina Sketch', sans-serif;
+@utility font-bowlby {
+  font-family: 'Bowlby One SC', sans-serif;
   font-weight: 400;
   font-style: normal;
 }
@@ -25,21 +25,59 @@ main {
 }
 
 .nipplejs-container {
-  @apply z-10 fixed inset-0;
+  @apply z-50 fixed inset-0;
 }
 
-.loading {
-  @apply absolute inset-0 z-20 flex justify-center items-center;
+.overlay {
+  @apply absolute inset-0 z-20;
+}
+
+.overlay .pillar {
+  @apply h-full !w-screen absolute;
+}
+
+.overlay .pillar:nth-child(1) {
+  background-image: url('@images/pillar-left.png');
+  background-position: right;
+}
+
+.overlay .pillar:nth-child(2) {
+  background-image: url('@images/pillar-right.png');
+  background-position: left;
+}
+
+.loading,
+.menu {
+  @apply flex justify-center items-center absolute inset-0 z-20;
 }
 
 .loading p {
-  @apply text-7xl text-amber-300 font-sketch;
+  @apply text-4xl text-white font-bowlby;
+}
+
+.menu {
+  @apply flex-col gap-10;
+}
+
+.menu h1 {
+  @apply text-7xl text-yellow-600 font-bowlby text-center;
+  text-shadow: 4px 4px 2px black;
+}
+
+button.stone {
+  border-top-left-radius: 255px 15px;
+  border-top-right-radius: 15px 225px;
+  border-bottom-right-radius: 225px 15px;
+  border-bottom-left-radius: 15px 255px;
+  @apply bg-amber-950 border-yellow-600 border-5 text-yellow-600 text-2xl px-5 py-2 font-bowlby cursor-pointer hover:bg-amber-900 active:bg-amber-900 shadow-md;
+  text-shadow: 4px 4px 2px black;
 }
 
 #timer {
-  @apply font-sketch absolute z-20 bg-amber-950 text-amber-300 text-4xl px-5 w-20 border-amber-300 border-4  left-1/2 -translate-x-1/2 top-7 text-center;
+  @apply font-bowlby absolute text-4xl left-1/2 -translate-x-1/2 top-7 text-white z-30 w-40 text-center;
+  text-shadow: 4px 4px 2px black;
 }
 
 #restart {
-  @apply font-sketch absolute z-20 bg-amber-950 text-amber-300 text-5xl p-5 border-amber-300 border-4 left-1/2 -translate-x-1/2 bottom-7 hover:bg-amber-900 active:bg-amber-900 cursor-pointer;
+  @apply absolute -translate-x-1/2 top-1/2 left-1/2 -translate-y-1/2 text-center text-white z-30 text-5xl;
 }

@@ -28,6 +28,7 @@ export default {
       '@shaders': path.resolve(__dirname, 'src/shaders'),
       '@ui': path.resolve(__dirname, 'src/ui'),
       '@utils': path.resolve(__dirname, 'src/utils'),
+      '@images': path.resolve(__dirname, 'static/images'),
     },
   },
 }

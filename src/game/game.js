@@ -1,4 +1,8 @@
 import Experience from '@experience'
+import Button from '@ui/button'
+import Menu from '@ui/menu'
+import Overlay from '@ui/overlay'
+import Text from '@ui/text'
 import Random from '@utils/random'
 import gsap from 'gsap'
 import { MathUtils } from 'three'
@@ -9,6 +13,12 @@ import Pillars from './pillars'
 import Walls from './walls'
 
 export default class Game {
+  get formattedTime() {
+    const minutes = Math.floor(this.time / 60)
+    const secs = this.time % 60
+    return `${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`
+  }
+
   constructor() {
     this.experience = Experience.instance
     this.scene = this.experience.scene
@@ -29,12 +39,20 @@ export default class Game {
     this.backSpeed = 0.6
 
     // TODO improve
-    this.restartButton = document.getElementById('restart')
-    this.restartButton.onclick = () => this.start()
-    this.timerText = document.getElementById('timer')
+    this.restartButton = new Button('#restart')
+    this.restartButton.onClick(() => {
+      Overlay.instance.open()
+      this.start()
+    })
+
+    Menu.instance.startButton.onClick(() => {
+      Menu.instance.close()
+      this.start()
+    })
+
+    this.timerText = new Text('#timer')
 
     this.init()
-    this.start()
 
     // TODO improve this workaround
     this.resize(true)
@@ -60,9 +78,8 @@ export default class Game {
   async start() {
     this.character.reset()
 
-    this.restartButton.classList.add('hidden')
-    this.timerText.classList.add('hidden')
-    this.timerText.textContent = this.time
+    this.restartButton.hide()
+    this.timerText.hide()
 
     await Promise.all(
       this.state.map((_, i) => this.movePillar(i, [0, 4, 5, 9].includes(i) ? 4 : 3)),
@@ -71,6 +88,7 @@ export default class Game {
     await this.camera.tilt()
     await this.sleep()
 
+    this.timerText.set(this.formattedTime)
     return this.loop()
   }
 
@@ -79,8 +97,9 @@ export default class Game {
     this.time = 0
     this.speed = this.defaultSpeed
     this.character.die()
+    Overlay.instance.close()
     await this.reset()
-    this.restartButton.classList.remove('hidden')
+    this.restartButton.show('top')
   }
 
   reset() {
@@ -123,7 +142,7 @@ export default class Game {
 
     this.started = true
     this.character.enabled = true
-    this.timerText.classList.remove('hidden')
+    this.timerText.show('bottom')
 
     await this.sleep()
     await Promise.all(this.state.map((s, i) => this.movePillar(i, s.step + 2)))
@@ -193,13 +212,9 @@ export default class Game {
     }
 
     const edgeX = x > target.maxX ? target.maxX : target.minX
-
-    if (Math.abs(x - edgeX >= 0.4)) {
-      this.stop()
-      return
-    }
-
     position.x = edgeX
+
+    if (Math.abs(x - edgeX >= 0.4)) this.stop()
   }
 
   resize(skip) {
@@ -220,7 +235,7 @@ export default class Game {
 
   updateSeconds() {
     if (!this.started) return
-    this.timerText.textContent = this.time
+    this.timerText.set(this.formattedTime)
     this.time++
   }
 }

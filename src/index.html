@@ -9,19 +9,28 @@
     <meta name="theme-color" content="#000000" />
 
     <title>Temple Rumble</title>
-    <!-- <meta property="description" content="" /> -->
+    <meta
+      property="description"
+      content="Inspired by a well-known minigame, this is a quick-reflex survival challenge where players must move into safe zones as giant pillars close in from all sides"
+    />
 
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://templerumble.vercel.app/" />
     <meta property="og:title" content="Temple Rumble" />
     <meta property="og:site_name" content="Temple Rumble" />
-    <!-- <meta property="og:description" content="" />  -->
-    <!-- <meta property="og:image" content="" /> -->
+    <meta
+      property="og:description"
+      content="Inspired by a well-known minigame, this is a quick-reflex survival challenge where players must move into safe zones as giant pillars close in from all sides"
+    />
+    <meta property="og:image" content="https://templerumble.vercel.app/cover.png" />
 
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:title" content="Temple Rumble" />
-    <!-- <meta property="twitter:description" content="" /> -->
-    <!-- <meta property="twitter:image" content="" /> -->
+    <meta
+      property="twitter:description"
+      content="Inspired by a well-known minigame, this is a quick-reflex survival challenge where players must move into safe zones as giant pillars close in from all sides"
+    />
+    <meta property="twitter:image" content="https://templerumble.vercel.app/cover.png" />
 
     <style>
       html,
@@ -45,19 +54,35 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Londrina+Sketch&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Bowlby+One+SC&display=swap"
       rel="stylesheet"
     />
   </head>
 
   <body>
     <main>
-      <div class="loading">
-        <p class="progress"></p>
+      <div class="overlay">
+        <div class="pillar"></div>
+        <div class="pillar"></div>
+
+        <div class="loading">
+          <p class="progress"></p>
+        </div>
+
+        <div class="menu">
+          <div class="flex flex-col md:flex-row gap-4">
+            <h1 class="title hidden">Temple</h1>
+            <h1 class="title hidden">Rumble</h1>
+          </div>
+          <div class="flex gap-4">
+            <button id="start" class="stone hidden">Start</button>
+            <button id="credits" class="stone hidden">Credits</button>
+          </div>
+        </div>
       </div>
 
       <p id="timer" class="hidden">0</p>
-      <button id="restart" class="hidden">RETRY</button>
+      <button id="restart" class="stone hidden">Retry</button>
 
       <canvas class="webgl grab"></canvas>
     </main>

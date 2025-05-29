@@ -1,3 +1,6 @@
+import Menu from './menu'
+import Text from './text'
+
 export default class Loading {
   /** @type {Loading} */
   static instance
@@ -11,22 +14,25 @@ export default class Loading {
     Loading.instance = this
 
     this.element = document.querySelector('.loading')
-    this.progress = this.element.querySelector('.progress')
+    this.progress = new Text('.progress')
 
     this.start()
   }
 
-  start() {}
+  start() {
+    this.progress.show('top')
+  }
 
   stop() {
     this.dispose()
   }
 
   setProgress(progress) {
-    this.progress.textContent = `${progress}%`
+    this.progress.set(`${Math.round(progress)}%`)
   }
 
   dispose() {
     this.element.remove()
+    Menu.instance.open()
   }
 }
