@@ -4,12 +4,16 @@
 ![Three.js	](https://img.shields.io/badge/ThreeJs-black?style=for-the-badge&logo=three.js&logoColor=white)
 ![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
 
+> Entry for the [Three.js Game Jam](https://threejsjam.com/)
+
 > Try it live here 👉 [templerumble.vercel.app](https://templerumble.vercel.app)
+
+Inspired by a well-known minigame, this is a quick-reflex survival challenge where players must move into safe zones as giant pillars close in from all sides.
 
 ## Technologies Used
 
-- [Three.js](https://threejs.org/) (3D rendering)
-- [Tweakpane](https://tweakpane.github.io/docs/) (Debug)
+- [Three.js](https://threejs.org/)
+- [Tweakpane](https://tweakpane.github.io/docs/)
 - [@yomotsu/camera-controls](https://github.com/yomotsu/camera-controls)
 - [@agargaro/instanced-mesh](https://github.com/agargaro/instanced-mesh)
 - [@bobbyroe/Simple-Particle-Effects](https://github.com/bobbyroe/Simple-Particle-Effects/tree/main)
