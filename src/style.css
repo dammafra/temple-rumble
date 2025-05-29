@@ -64,7 +64,8 @@ main {
   text-shadow: 4px 4px 2px black;
 }
 
-button.stone {
+button.stone,
+a#credits {
   border-top-left-radius: 255px 15px;
   border-top-right-radius: 15px 225px;
   border-bottom-right-radius: 225px 15px;

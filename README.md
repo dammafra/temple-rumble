@@ -12,6 +12,7 @@
 - [Tweakpane](https://tweakpane.github.io/docs/) (Debug)
 - [@yomotsu/camera-controls](https://github.com/yomotsu/camera-controls)
 - [@agargaro/instanced-mesh](https://github.com/agargaro/instanced-mesh)
+- [@bobbyroe/Simple-Particle-Effects](https://github.com/bobbyroe/Simple-Particle-Effects/tree/main)
 - [GSAP](https://gsap.com/)
 - [Tailwind](https://tailwindcss.com/)
 
@@ -34,7 +35,22 @@ TBD
 
 ## Credits
 
-Check out the credits section in the project for a full list of resources used
+### Models
+
+- [Pebble Square](https://poly.pizza/m/6juX57sLHe) by [Quaternius](https://poly.pizza/u/Quaternius)
+- [Adventurer](https://poly.pizza/m/5EGWBMpuXq) by [Quaternius](https://poly.pizza/u/Quaternius)
+- [Rusted copper gear](https://skfb.ly/6VUqG) by Henri Hanot is licensed under [Creative Commons Attribution](http://creativecommons.org/licenses/by/4.0/)
+- [Old jungle tribal pillar](https://skfb.ly/6vCrv) by Baardus is licensed under [Creative Commons Attribution](http://creativecommons.org/licenses/by/4.0/) -[Torch](https://skfb.ly/6SZXN) by DivyeSh PanchAl is licensed under [Creative Commons Attribution](http://creativecommons.org/licenses/by/4.0/)
+
+### Textures
+
+- [Stylized Bricks 004](https://3dtextures.me/2024/05/31/stylized-bricks-004/) by [Katsukagi](https://3dtextures.me/author/gendosplace/)
+- [Stylized Stone Wall 002](https://3dtextures.me/2024/06/18/stylized-stone-wall-002/) by [Katsukagi](https://3dtextures.me/author/gendosplace/)
+- [Particle Pack](https://www.kenney.nl/assets/particle-pack) by Kenney
+
+### Sounds
+
+TBD
 
 ## Feedback
 
