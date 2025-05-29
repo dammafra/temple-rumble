@@ -10,6 +10,9 @@ export default class Loading {
     if (Loading.instance) return Loading.instance
     Loading.instance = this
 
+    this.element = document.querySelector('.loading')
+    this.progress = this.element.querySelector('.progress')
+
     this.start()
   }
 
@@ -20,8 +23,10 @@ export default class Loading {
   }
 
   setProgress(progress) {
-    console.log('Loading...', progress)
+    this.progress.textContent = `${progress}%`
   }
 
-  dispose() {}
+  dispose() {
+    this.element.remove()
+  }
 }

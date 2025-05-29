@@ -1,6 +1,12 @@
 /* tailwind config */
 @import 'tailwindcss';
 
+@utility font-sketch {
+  font-family: 'Londrina Sketch', sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
 /* styles */
 * {
   @apply select-none touch-manipulation;
@@ -20,4 +26,16 @@ main {
 
 .nipplejs-container {
   @apply z-10 fixed inset-0;
+}
+
+.loading {
+  @apply absolute inset-0 z-20 flex justify-center items-center;
+}
+
+.loading p {
+  @apply text-7xl text-amber-300 font-sketch;
+}
+
+#restart {
+  @apply font-sketch absolute z-20 bg-amber-950 text-amber-300 text-7xl p-5 border-amber-300 border-4 left-1/2 -translate-x-1/2 bottom-7 hover:bg-amber-900 active:bg-amber-900 cursor-pointer;
 }

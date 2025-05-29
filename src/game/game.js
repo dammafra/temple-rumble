@@ -28,6 +28,10 @@ export default class Game {
     this.speed = this.defaultSpeed
     this.backSpeed = 0.6
 
+    // TODO improve
+    this.restartButton = document.getElementById('restart')
+    this.restartButton.onclick = () => this.start()
+
     this.init()
     this.start()
 
@@ -54,6 +58,7 @@ export default class Game {
 
   start() {
     this.character.reset()
+    this.restartButton.classList.add('hidden')
 
     Promise.all(this.state.map((_, i) => this.movePillar(i, [0, 4, 5, 9].includes(i) ? 4 : 3)))
       .then(() => this.camera.tilt())
@@ -66,6 +71,7 @@ export default class Game {
     this.time = 0
     this.speed = this.defaultSpeed
     this.character.die()
+    this.restartButton.classList.remove('hidden')
     return this.reset()
   }
 
