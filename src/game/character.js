@@ -85,7 +85,7 @@ export default class Character {
   }
 
   move() {
-    if (!this.isMoving) return
+    if (!this.isMoving || !this.enabled) return
 
     const newX = this.mesh.position.x + this.direction.x * this.moveSpeed * this.time.delta
     const newZ = this.mesh.position.z + this.direction.y * this.moveSpeed * this.time.delta
