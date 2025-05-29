@@ -57,26 +57,30 @@ export default class Game {
     })
   }
 
-  start() {
+  async start() {
     this.character.reset()
 
     this.restartButton.classList.add('hidden')
     this.timerText.classList.add('hidden')
     this.timerText.textContent = this.time
 
-    Promise.all(this.state.map((_, i) => this.movePillar(i, [0, 4, 5, 9].includes(i) ? 4 : 3)))
-      .then(() => this.camera.tilt())
-      .then(() => this.await())
-      .then(() => this.loop())
+    await Promise.all(
+      this.state.map((_, i) => this.movePillar(i, [0, 4, 5, 9].includes(i) ? 4 : 3)),
+    )
+
+    await this.camera.tilt()
+    await this.sleep()
+
+    return this.loop()
   }
 
-  stop() {
+  async stop() {
     this.started = false
     this.time = 0
     this.speed = this.defaultSpeed
     this.character.die()
+    await this.reset()
     this.restartButton.classList.remove('hidden')
-    return this.reset()
   }
 
   reset() {
@@ -85,11 +89,11 @@ export default class Game {
     )
   }
 
-  await(seconds = 1) {
+  sleep(seconds = 1) {
     return new Promise(resolve => setTimeout(() => resolve(), seconds * 1000))
   }
 
-  loop() {
+  async loop() {
     const safeCombinations = [
       [1, 2],
       [2, 1],
@@ -109,23 +113,24 @@ export default class Game {
       if (!safeSpots.has(row)) safeSpots.add(row)
     }
 
-    Promise.all(
+    await Promise.all(
       Array.from({ length: 5 }, (_, i) => {
         const isSafe = safeSpots.has(i)
         const combination = Random.oneOf(isSafe ? safeCombinations : unsafeCombinations)
         return [this.movePillar(i, combination.at(0)), this.movePillar(i + 5, combination.at(1))]
       }).flat(),
     )
-      .then(() => {
-        this.started = true
-        this.character.enabled = true
-        this.timerText.classList.remove('hidden')
-      })
-      .then(() => this.await())
-      .then(() => Promise.all(this.state.map((s, i) => this.movePillar(i, s.step + 2))))
-      .then(() => this.camera.tilt())
-      .then(() => this.await(2))
-      .then(() => this.started && this.loop())
+
+    this.started = true
+    this.character.enabled = true
+    this.timerText.classList.remove('hidden')
+
+    await this.sleep()
+    await Promise.all(this.state.map((s, i) => this.movePillar(i, s.step + 2)))
+    await this.camera.tilt()
+    await this.sleep(2)
+
+    return this.started && this.loop()
   }
   // ---------------------------------------------------------------------
 
