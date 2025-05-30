@@ -21,11 +21,11 @@ main {
 }
 
 .nipplejs-container {
-  @apply z-50 fixed inset-0;
+  @apply z-30 fixed inset-0;
 }
 
 .overlay {
-  @apply absolute inset-0 z-20;
+  @apply absolute inset-0 z-10;
 }
 
 .overlay .pillar {
@@ -44,7 +44,7 @@ main {
 
 .loading,
 .menu {
-  @apply flex justify-center items-center absolute inset-0 z-20;
+  @apply flex justify-center items-center absolute inset-0 z-10;
 }
 
 .loading p {
@@ -60,21 +60,43 @@ main {
   text-shadow: 4px 4px 2px black;
 }
 
-button.stone,
-a#credits {
+*.stone {
   border-top-left-radius: 255px 15px;
   border-top-right-radius: 15px 225px;
   border-bottom-right-radius: 225px 15px;
   border-bottom-left-radius: 15px 255px;
-  @apply bg-amber-950 border-yellow-600 border-5 text-yellow-600 text-2xl px-5 py-2 font-bowlby cursor-pointer hover:bg-amber-900 active:bg-amber-900 shadow-md;
+  @apply border-yellow-600 border-5;
+}
+
+button.stone,
+a#credits {
+  @apply bg-amber-950 text-yellow-600 text-2xl px-5 py-2 font-bowlby cursor-pointer hover:bg-amber-900 active:bg-amber-900 shadow-md;
   text-shadow: 4px 4px 2px black;
 }
 
 #timer {
-  @apply font-bowlby absolute text-4xl left-1/2 -translate-x-1/2 top-7 text-white z-30 w-40 text-center;
+  @apply font-bowlby absolute text-4xl left-1/2 -translate-x-1/2 top-7 text-white z-20 w-40 text-center transition-all duration-500;
   text-shadow: 4px 4px 2px black;
 }
 
-#restart {
-  @apply absolute -translate-x-1/2 top-1/2 left-1/2 -translate-y-1/2 text-center text-white z-30 text-5xl;
+#retry {
+  @apply absolute -translate-x-1/2 left-1/2 bottom-7 text-center z-20 text-5xl;
+}
+
+.leaderboard {
+  @apply absolute inset-0 z-20 flex flex-col justify-center items-center gap-8;
+}
+
+.leaderboard h2 {
+  @apply text-4xl text-yellow-600 font-bowlby;
+  text-shadow: 4px 4px 2px black;
+}
+
+.leaderboard ol {
+  @apply font-bowlby text-white text-2xl list-decimal;
+  text-shadow: 4px 4px 2px black;
+}
+
+.leaderboard input {
+  @apply bg-white outline-none py-2 font-bowlby text-center;
 }

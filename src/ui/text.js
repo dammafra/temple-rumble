@@ -9,4 +9,8 @@ export default class Text extends Element {
     this.element.textContent = content
     return this
   }
+
+  get() {
+    return this.element.textContent
+  }
 }

@@ -1,8 +1,10 @@
 import Experience from '@experience'
+import Leaderboard from '@fire/leaderboard'
 import Button from '@ui/button'
 import Menu from '@ui/menu'
 import Overlay from '@ui/overlay'
 import Text from '@ui/text'
+import formatTimer from '@utils/format'
 import { getParticleSystem } from '@utils/getParticleSystem'
 import Random from '@utils/random'
 import gsap from 'gsap'
@@ -14,12 +16,6 @@ import Pillars from './pillars'
 import Walls from './walls'
 
 export default class Game {
-  get formattedTime() {
-    const minutes = Math.floor(this.timer / 60)
-    const secs = this.timer % 60
-    return `${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`
-  }
-
   constructor() {
     this.experience = Experience.instance
     this.scene = this.experience.scene
@@ -42,8 +38,8 @@ export default class Game {
     this.backSpeed = 0.6
 
     // TODO improve
-    this.restartButton = new Button('#restart')
-    this.restartButton.onClick(() => {
+    this.retryButton = new Button('#retry')
+    this.retryButton.onClick(() => {
       Overlay.instance.open()
       this.start()
     })
@@ -98,8 +94,9 @@ export default class Game {
   async start() {
     this.character.reset()
 
-    this.restartButton.hide()
+    this.retryButton.hide()
     this.timerText.hide()
+    Leaderboard.instance.hide()
 
     await Promise.all(
       this.state.map((_, i) => this.movePillar(i, [0, 4, 5, 9].includes(i) ? 4 : 3)),
@@ -111,20 +108,21 @@ export default class Game {
     ])
     await this.sleep()
 
-    this.timerText.set(this.formattedTime)
+    this.timer = 0
+    this.timerText.set(formatTimer(this.timer))
     return this.loop()
   }
 
   async stop() {
     this.started = false
-    this.timer = 0
     this.speed = this.defaultSpeed
     this.character.die()
     Overlay.instance.close()
     await this.reset()
     this.soundPlayer.stop('pillars')
     this.soundPlayer.stop('cogs')
-    this.restartButton.show('top')
+    this.retryButton.show('top')
+    Leaderboard.instance.show(this.timer)
   }
 
   reset() {
@@ -141,6 +139,7 @@ export default class Game {
 
   async loop() {
     this.soundPlayer.play('loop', { loop: true })
+    this.timerText.show('bottom')
 
     const safeCombinations = [
       [1, 2],
@@ -180,7 +179,6 @@ export default class Game {
 
     this.started = true
     this.character.enabled = true
-    this.timerText.show('bottom')
 
     await this.sleep()
     await Promise.all(this.state.map((s, i) => this.movePillar(i, s.step + 2)))
@@ -293,7 +291,7 @@ export default class Game {
 
   updateSeconds() {
     if (!this.started) return
-    this.timerText.set(this.formattedTime)
     this.timer++
+    this.timerText.set(formatTimer(this.timer))
   }
 }

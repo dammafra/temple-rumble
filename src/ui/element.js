@@ -10,6 +10,7 @@ export default class Element {
 
     gsap.set(this.element, { opacity: 0 })
     this.element.setAttribute('tabindex', '-1')
+    this.element.classList.add('hidden')
   }
 
   show(direction) {

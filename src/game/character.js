@@ -168,7 +168,8 @@ export default class Character {
     this.idleAction.stop()
     this.runAction.stop()
 
-    this.soundPlayer.play('death')
+    this.soundPlayer.stop('run')
+    this.soundPlayer.play('death', { force: true })
   }
 
   update() {

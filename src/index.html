@@ -89,7 +89,22 @@
       </div>
 
       <p id="timer" class="hidden">0</p>
-      <button id="restart" class="stone hidden">Retry</button>
+
+      <div class="leaderboard !hidden">
+        <h2>Leaderboard</h2>
+        <ol>
+          <li id="score1">-</li>
+          <li id="score2">-</li>
+          <li id="score3">-</li>
+        </ol>
+
+        <div class="flex flex-col gap-1 min-h-[112px]">
+          <input class="stone" placeholder="Insert your initials" maxlength="3" />
+          <button id="submit" class="stone">Submit</button>
+        </div>
+      </div>
+
+      <button id="retry" class="stone hidden">Retry</button>
 
       <canvas class="webgl grab"></canvas>
     </main>
