@@ -33,7 +33,9 @@ export default class Resources extends EventDispatcher {
     }
   }
 
-  startLoading() {
+  async startLoading() {
+    await PokiSDK.init()
+
     if (!this.sources.length) {
       this.dispatchEvent({ type: 'ready' })
       return
@@ -69,6 +71,7 @@ export default class Resources extends EventDispatcher {
 
     if (this.loaded === this.toLoad) {
       this.dispatchEvent({ type: 'ready' })
+      PokiSDK.gameLoadingFinished()
     }
   }
 }

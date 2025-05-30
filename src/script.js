@@ -1,5 +1,4 @@
 import Experience from '@experience'
-import Auth from '@fire/auth'
 import Loading from '@ui/loading'
 import Menu from '@ui/menu'
 import Overlay from '@ui/overlay'
@@ -10,8 +9,6 @@ import 'core-js/actual'
 
 DoubleTapPreventer.init()
 Versioning.init('1.0')
-
-Auth.init()
 
 Overlay.init()
 Menu.init()

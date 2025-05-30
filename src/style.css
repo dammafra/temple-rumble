@@ -1,6 +1,13 @@
 /* tailwind config */
 @import 'tailwindcss';
 
+@font-face {
+  font-family: 'Bowlby One SC';
+  src: url('/fonts/BowlbyOneSC-Regular.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
 @utility font-bowlby {
   font-family: 'Bowlby One SC', sans-serif;
   font-weight: 400;
@@ -81,22 +88,4 @@ a#credits {
 
 #retry {
   @apply absolute -translate-x-1/2 left-1/2 bottom-14 text-center z-20 text-5xl;
-}
-
-.leaderboard {
-  @apply absolute inset-0 z-20 flex flex-col justify-center items-center gap-8;
-}
-
-.leaderboard h2 {
-  @apply text-4xl text-yellow-600 font-bowlby;
-  text-shadow: 4px 4px 2px black;
-}
-
-.leaderboard ol {
-  @apply font-bowlby text-white text-2xl list-decimal;
-  text-shadow: 4px 4px 2px black;
-}
-
-.leaderboard input {
-  @apply bg-white outline-none py-2 font-bowlby text-center;
 }

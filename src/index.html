@@ -14,24 +14,6 @@
       content="Inspired by a well-known minigame, this is a quick-reflex survival challenge where players must move into safe zones as giant pillars close in from all sides"
     />
 
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://templerumble.vercel.app/" />
-    <meta property="og:title" content="Temple Rumble" />
-    <meta property="og:site_name" content="Temple Rumble" />
-    <meta
-      property="og:description"
-      content="Inspired by a well-known minigame, this is a quick-reflex survival challenge where players must move into safe zones as giant pillars close in from all sides"
-    />
-    <meta property="og:image" content="https://templerumble.vercel.app/cover.png" />
-
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:title" content="Temple Rumble" />
-    <meta
-      property="twitter:description"
-      content="Inspired by a well-known minigame, this is a quick-reflex survival challenge where players must move into safe zones as giant pillars close in from all sides"
-    />
-    <meta property="twitter:image" content="https://templerumble.vercel.app/cover.png" />
-
     <style>
       html,
       body {
@@ -45,19 +27,7 @@
     </style>
     <link rel="stylesheet" href="./style.css" />
 
-    <link rel="icon" type="image/png" href="favicon/favicon-96x96.png" sizes="96x96" />
-    <link rel="icon" type="image/svg+xml" href="favicon/favicon.svg" />
-    <link rel="shortcut icon" href="favicon/favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png" />
-    <link rel="manifest" href="site.webmanifest" />
-    <link rel="canonical" href="https://templerumble.vercel.app/index.html" />
-
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Bowlby+One+SC&display=swap"
-      rel="stylesheet"
-    />
+    <script src="https://game-cdn.poki.com/scripts/v2/poki-sdk.js"></script>
   </head>
 
   <body>
@@ -89,20 +59,6 @@
       </div>
 
       <p id="timer" class="hidden">0</p>
-
-      <div class="leaderboard !hidden">
-        <h2>Leaderboard</h2>
-        <ol>
-          <li id="score1" class="uppercase">-</li>
-          <li id="score2" class="uppercase">-</li>
-          <li id="score3" class="uppercase">-</li>
-        </ol>
-
-        <div class="flex flex-col gap-1 min-h-[112px]">
-          <input class="stone" placeholder="Insert your initials" maxlength="3" />
-          <button id="submit" class="stone">Submit</button>
-        </div>
-      </div>
 
       <button id="retry" class="stone hidden">Retry</button>
 

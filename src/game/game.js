@@ -1,5 +1,4 @@
 import Experience from '@experience'
-import Leaderboard from '@fire/leaderboard'
 import Button from '@ui/button'
 import Menu from '@ui/menu'
 import Overlay from '@ui/overlay'
@@ -33,18 +32,23 @@ export default class Game {
     this.timer = 0
     this.defaultSpeed = 1
     this.minSpeed = 0.2
-    this.speedDelta = 0.05
+    this.speedDelta = 0.08
     this.speed = this.defaultSpeed
     this.backSpeed = 0.6
 
     // TODO improve
     this.retryButton = new Button('#retry')
-    this.retryButton.onClick(() => {
+    this.retryButton.onClick(async () => {
+      await PokiSDK.commercialBreak(() => this.soundPlayer.stop('loop'))
+      PokiSDK.gameplayStart()
+
       Overlay.instance.open()
       this.start()
     })
 
-    Menu.instance?.startButton.onClick(() => {
+    Menu.instance?.startButton.onClick(async () => {
+      PokiSDK.gameplayStart()
+
       Menu.instance.close()
       this.start()
     })
@@ -96,7 +100,6 @@ export default class Game {
 
     this.retryButton.hide()
     this.timerText.hide()
-    Leaderboard.instance.hide()
 
     await Promise.all(
       this.state.map((_, i) => this.movePillar(i, [0, 4, 5, 9].includes(i) ? 4 : 3)),
@@ -114,7 +117,11 @@ export default class Game {
   }
 
   async stop() {
+    if (!this.started) return
     this.started = false
+
+    PokiSDK.gameplayStop()
+
     this.speed = this.defaultSpeed
     this.character.die()
     Overlay.instance.close()
@@ -122,7 +129,6 @@ export default class Game {
     this.soundPlayer.stop('pillars')
     this.soundPlayer.stop('cogs')
     this.retryButton.show('top')
-    Leaderboard.instance.show(this.timer)
   }
 
   reset() {
