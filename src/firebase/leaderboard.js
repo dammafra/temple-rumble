@@ -32,7 +32,7 @@ export default class Leaderboard {
     this.scoreTexts.forEach((s, i) => s.show('bottom'))
 
     if (this.canSubmit(score)) {
-      this.timerText.element.classList.add('!text-yellow-600', '!text-5xl', 'animate-pulse')
+      this.timerText.element.classList.add('!text-yellow-600', 'animate-pulse')
 
       this.input.show('top')
       this.submitButton.show('top')
@@ -52,7 +52,7 @@ export default class Leaderboard {
     this.input.hide()
     this.submitButton.hide()
 
-    this.timerText.element.classList.remove('!text-yellow-600', '!text-5xl', 'animate-pulse')
+    this.timerText.element.classList.remove('!text-yellow-600', 'animate-pulse')
   }
 
   async refresh() {

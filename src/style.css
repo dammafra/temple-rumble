@@ -75,12 +75,12 @@ a#credits {
 }
 
 #timer {
-  @apply font-bowlby absolute text-4xl left-1/2 -translate-x-1/2 top-7 text-white z-20 w-40 text-center transition-[font-size] duration-500;
+  @apply font-bowlby absolute text-4xl left-1/2 -translate-x-1/2 top-7 text-white z-20 w-40 text-center;
   text-shadow: 4px 4px 2px black;
 }
 
 #retry {
-  @apply absolute -translate-x-1/2 left-1/2 bottom-7 text-center z-20 text-5xl;
+  @apply absolute -translate-x-1/2 left-1/2 bottom-14 text-center z-20 text-5xl;
 }
 
 .leaderboard {
