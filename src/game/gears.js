@@ -48,11 +48,11 @@ export default class Gears {
     })
   }
 
-  setRotation(index, directionIn) {
+  setRotation(index, speed, directionIn) {
     const onLeft = index < this.grid.height
     const gear = this.iMesh.instances.at(index)
 
-    gear.rotation.y += 0.01 * (directionIn ? 1 : -1) * (onLeft ? -1 : 1)
+    gear.rotation.y += (1 / speed) * 0.005 * (directionIn ? 1 : -1) * (onLeft ? -1 : 1)
     gear.updateMatrix()
   }
 }
