@@ -33,7 +33,7 @@ export default class Game {
     this.timer = 0
     this.defaultSpeed = 1
     this.minSpeed = 0.2
-    this.speedDelta = 0.05
+    this.speedDelta = 0.08
     this.speed = this.defaultSpeed
     this.backSpeed = 0.6
 
@@ -114,7 +114,9 @@ export default class Game {
   }
 
   async stop() {
+    if (!this.started) return
     this.started = false
+
     this.speed = this.defaultSpeed
     this.character.die()
     Overlay.instance.close()

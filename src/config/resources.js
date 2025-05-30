@@ -61,32 +61,32 @@ const resourcesConfig = [
   {
     name: 'cogs',
     type: 'sound',
-    path: '/sounds/cogs.mp3',
+    path: './sounds/cogs.mp3',
   },
   {
     name: 'collision',
     type: 'sound',
-    path: '/sounds/collision.mp3',
+    path: './sounds/collision.mp3',
   },
   {
     name: 'death',
     type: 'sound',
-    path: '/sounds/death.mp3',
+    path: './sounds/death.mp3',
   },
   {
     name: 'loop',
     type: 'sound',
-    path: '/sounds/loop.mp3',
+    path: './sounds/loop.mp3',
   },
   {
     name: 'pillars',
     type: 'sound',
-    path: '/sounds/pillars.mp3',
+    path: './sounds/pillars.mp3',
   },
   {
     name: 'run',
     type: 'sound',
-    path: '/sounds/run.mp3',
+    path: './sounds/run.mp3',
   },
 ]
 

@@ -58,7 +58,7 @@ export default class Leaderboard {
   async refresh() {
     this.scores = await this.get()
     this.scores.forEach((score, i) => {
-      this.scoreTexts.at(i).set(`${score.name} - ${formatTimer(score.score)}`)
+      this.scoreTexts.at(i).set(`${score.name.substring(0, 3)} - ${formatTimer(score.score)}`)
     })
   }
 
