@@ -119,7 +119,7 @@ export default class Character {
     if (isMoving) {
       this.runAction.reset()
       this.idleAction.crossFadeTo(this.runAction, 0.3, false)
-      this.soundPlayer.play('run', { loop: true, speed: 1.2 })
+      this.soundPlayer.play('run', { speed: 1.2 })
     } else {
       this.idleAction.reset()
       this.runAction.crossFadeTo(this.idleAction, 0.3, false)
@@ -169,7 +169,7 @@ export default class Character {
     this.runAction.stop()
 
     this.soundPlayer.stop('run')
-    this.soundPlayer.play('death', { force: true })
+    this.soundPlayer.play('death', { loop: false })
   }
 
   update() {

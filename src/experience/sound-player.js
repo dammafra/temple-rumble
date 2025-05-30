@@ -18,23 +18,23 @@ export default class SoundPlayer {
     )
   }
 
-  async play(sound, { loop, volume, speed, force } = {}) {
+  async play(sound, { loop = true, volume = 0.5, speed = 1 } = {}) {
     const buffer = this.resources.items[sound]
 
-    if (!force && (!buffer || this.sources.get(sound))) return
+    if (!buffer || this.sources.get(sound)) return
 
     const source = this.audioContext.createBufferSource()
     source.buffer = buffer
     source.loop = loop
-    source.playbackRate.value = typeof speed === 'undefined' ? 1 : speed
+    source.playbackRate.value = speed
 
     const gainNode = this.audioContext.createGain()
-    gainNode.gain.value = typeof volume === 'undefined' ? 0.5 : volume
+    gainNode.gain.value = volume
 
     source.connect(gainNode).connect(this.audioContext.destination)
     source.start()
 
-    this.sources.set(sound, source)
+    loop && this.sources.set(sound, source)
   }
 
   async stop(sound) {

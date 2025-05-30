@@ -138,7 +138,7 @@ export default class Game {
   }
 
   async loop() {
-    this.soundPlayer.play('loop', { loop: true })
+    this.soundPlayer.play('loop')
     this.timerText.show('bottom')
 
     const safeCombinations = [
@@ -192,7 +192,7 @@ export default class Game {
     this.soundPlayer.stop('pillars')
     this.soundPlayer.stop('cogs')
 
-    this.soundPlayer.play('collision', { force: true })
+    this.soundPlayer.play('collision', { loop: false })
 
     collisions.forEach(c => {
       const particles = this.particles.at(c.index)
@@ -209,8 +209,8 @@ export default class Game {
   movePillar(index, step) {
     const state = this.state.at(index)
     const directionIn = state.step - step < 0
-    this.soundPlayer.play('pillars', { loop: true, speed: 0.5 })
-    this.soundPlayer.play('cogs', { loop: true, volume: 0.1 })
+    this.soundPlayer.play('pillars', { speed: 0.5 })
+    this.soundPlayer.play('cogs', { volume: 0.1 })
 
     return gsap.to(state, {
       step,
