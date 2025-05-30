@@ -31,11 +31,11 @@ export default class Game {
     this.character = new Character(this)
 
     this.timer = 0
-    this.defaultSpeed = 1
-    this.minSpeed = 0.2
-    this.speedDelta = 0.08
+    this.defaultSpeed = 0.8
+    this.minSpeed = 0.1
+    this.speedDelta = 0.05
     this.speed = this.defaultSpeed
-    this.backSpeed = 0.6
+    this.backSpeed = 0.5
 
     // TODO improve
     this.retryButton = new Button('#retry')
@@ -156,8 +156,13 @@ export default class Game {
 
     this.speed = Math.max(this.minSpeed, this.speed - this.speedDelta)
 
+    // lerp
+    const t = (this.speed - this.minSpeed) / (this.defaultSpeed - this.minSpeed)
+    const value = 1 + t * (4 - 1)
+    const count = Math.round(value)
+
     const safeSpots = new Set()
-    while (safeSpots.size < Random.integer({ min: 2, max: 4 })) {
+    while (safeSpots.size < count) {
       const row = Random.integer({ max: 4 })
       if (!safeSpots.has(row)) safeSpots.add(row)
     }
@@ -182,7 +187,7 @@ export default class Game {
     this.started = true
     this.character.enabled = true
 
-    await this.sleep()
+    await this.sleep(0.2 * count)
     await Promise.all(this.state.map((s, i) => this.movePillar(i, s.step + 2)))
     await this.onCollision(collisions)
     await this.sleep(2)
@@ -211,6 +216,8 @@ export default class Game {
   movePillar(index, step) {
     const state = this.state.at(index)
     const directionIn = state.step - step < 0
+    const speed = directionIn ? this.speed : this.backSpeed
+
     this.soundPlayer.play('pillars', { speed: 0.5 })
     this.soundPlayer.play('cogs', { volume: 0.1 })
 
@@ -219,10 +226,10 @@ export default class Game {
       minX: this.getMinX(index, step),
       maxX: this.getMaxX(index, step),
       ease: 'none',
-      duration: Math.abs(state.step - step) * (directionIn ? this.speed : this.backSpeed),
+      duration: Math.abs(state.step - step) * speed,
       onUpdate: () => {
         this.pillars.setPositionX(index, state.step)
-        this.gears.setRotation(index, directionIn)
+        this.gears.setRotation(index, speed, directionIn)
       },
     })
   }
