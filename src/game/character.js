@@ -35,7 +35,7 @@ export default class Character {
     this.game = game
     this.grid = game.grid
 
-    this.isMoving = false
+    this.moving = false
     this.moveSpeed = 3
     this.rotationSpeed = 10
     this.direction = new Vector2()
@@ -113,8 +113,8 @@ export default class Character {
 
     this.direction.copy(direction)
 
-    if (this.isMoving === isMoving) return
-    this.isMoving = isMoving
+    if (this.moving === isMoving) return
+    this.moving = isMoving
 
     if (isMoving) {
       this.runAction.reset()
@@ -131,7 +131,7 @@ export default class Character {
     this.shadow.position.x = this.mesh.position.x
     this.shadow.position.z = this.mesh.position.z
 
-    if (!this.isMoving || !this.enabled) return
+    if (!this.moving || !this.enabled) return
 
     const newX = this.mesh.position.x + this.direction.x * this.moveSpeed * this.time.delta
     const newZ = this.mesh.position.z + this.direction.y * this.moveSpeed * this.time.delta
@@ -152,6 +152,8 @@ export default class Character {
 
   reset() {
     this.enabled = false
+    this.moving = false
+    this.direction = new Vector2()
     this.mesh.position.copy(this.defaultPosition)
     this.mesh.rotation.set(0, 0, 0)
 

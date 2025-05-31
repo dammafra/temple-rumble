@@ -26,10 +26,12 @@ export default class Time extends EventDispatcher {
       if (document.visibilityState === 'hidden') {
         this.paused = true
         gsap.globalTimeline.pause()
+        this.experience.soundPlayer?.setMuted(true)
       } else {
         this.paused = false
         this.timer.reset()
         gsap.globalTimeline.resume()
+        this.experience.soundPlayer?.setMuted(false)
       }
     })
   }
