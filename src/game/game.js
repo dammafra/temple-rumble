@@ -194,7 +194,7 @@ export default class Game {
     await this.sleep(0.2 * count)
     await Promise.all(this.state.map((s, i) => this.movePillar(i, s.step + 2)))
     await this.onCollision(collisions)
-    await this.sleep(2)
+    await this.sleep()
 
     return this.started && this.loop()
   }
