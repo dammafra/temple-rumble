@@ -25,9 +25,9 @@ export default class Menu {
   open() {
     const aspectRatio = window.innerWidth / window.innerHeight
     this.menuTextLeft.show(aspectRatio < 1 ? 'bottom' : 'right')
-    this.menuTextRight.show(aspectRatio < 1 ? 'top' : 'left')
-    this.startButton.show('right')
-    this.creditsButton.show('left')
+    this.menuTextRight.show(aspectRatio < 1 ? 'bottom' : 'left')
+    this.startButton.show(aspectRatio < 1 ? 'top' : 'right')
+    this.creditsButton.show(aspectRatio < 1 ? 'top' : 'left')
 
     return Overlay.instance.close()
   }
