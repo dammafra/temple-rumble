@@ -4,7 +4,7 @@
 ![Three.js	](https://img.shields.io/badge/ThreeJs-black?style=for-the-badge&logo=three.js&logoColor=white)
 ![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
 
-> Entry for the [Three.js Game Jam](https://threejsjam.com/)
+> 🥈 2nd place in the [Three.js Game Jam](https://threejsjam.com/)
 
 > Try it live here 👉 [templerumble.vercel.app](https://templerumble.vercel.app)
 
