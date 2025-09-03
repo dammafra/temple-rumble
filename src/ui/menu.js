@@ -42,6 +42,7 @@ export default class Menu {
     this.menuTextRight.hide()
     this.startButton.hide()
     this.creditsButton.hide()
+    this.footer.hide()
 
     return Overlay.instance.open()
   }
