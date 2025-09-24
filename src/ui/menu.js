@@ -20,6 +20,7 @@ export default class Menu {
     this.menuTextRight = new Text('.title:nth-child(2)')
     this.startButton = new Button('#start')
     this.creditsButton = new Button('#credits')
+    this.footer = new Text('footer')
   }
 
   open() {
@@ -28,6 +29,7 @@ export default class Menu {
     this.menuTextRight.show(aspectRatio < 1 ? 'bottom' : 'left')
     this.startButton.show(aspectRatio < 1 ? 'top' : 'right')
     this.creditsButton.show(aspectRatio < 1 ? 'top' : 'left')
+    this.footer.show('top')
 
     return Overlay.instance.close()
   }
@@ -40,6 +42,7 @@ export default class Menu {
     this.menuTextRight.hide()
     this.startButton.hide()
     this.creditsButton.hide()
+    this.footer.hide()
 
     return Overlay.instance.open()
   }

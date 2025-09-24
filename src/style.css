@@ -67,6 +67,11 @@ main {
   text-shadow: 4px 4px 2px black;
 }
 
+.menu footer {
+  @apply text-xl text-white font-bowlby text-center;
+  text-shadow: 4px 4px 2px black;
+}
+
 *.stone {
   border-top-left-radius: 255px 15px;
   border-top-right-radius: 15px 225px;
