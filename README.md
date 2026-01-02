@@ -8,7 +8,7 @@
 
 > 🥈 2nd place in the [Three.js Game Jam](https://threejsjam.com/)
 
-> Try it live here 👉 [templerumble.vercel.app](https://templerumble.vercel.app)
+> Try it live here 👉 [templerumble.dammafra.dev](https://templerumble.dammafra.dev)
 
 Inspired by a well-known minigame, this is a quick-reflex survival challenge where players must move into safe zones as giant pillars close in from all sides.
 
